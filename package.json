@@ -1,0 +1,36 @@
+{
+  "name": "gafalag-web",
+  "version": "1.0.0",
+  "description": "Web UI for Gafalag project",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --mode=development --hot",
+    "build": "webpack --mode=production"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "7.2.6"
+  },
+  "devDependencies": {
+    "@babel/core": "7.16.0",
+    "@babel/preset-env": "7.16.0",
+    "@babel/preset-react": "7.16.0",
+    "@svgr/webpack": "5.5.0",
+    "@types/react": "17.0.33",
+    "@types/react-dom": "17.0.10",
+    "css-loader": "6.5.0",
+    "dotenv": "10.0.0",
+    "html-webpack-plugin": "5.5.0",
+    "interpolate-html-plugin": "4.0.0",
+    "mini-css-extract-plugin": "2.4.3",
+    "ts-loader": "9.2.6",
+    "typescript": "4.4.4",
+    "url-loader": "4.1.1",
+    "webpack": "5.61.0",
+    "webpack-cli": "4.9.1",
+    "webpack-dev-server": "4.4.0"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "strict": true,
+    "sourceMap": true,
+    "target": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      // Custom modules import alias
+      // Always add it also to tsconfig.json
+      "@/*": [ "src/*"],
+    },
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
