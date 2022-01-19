@@ -1,0 +1,12 @@
+{
+	"sources": "Sources",
+	"login": "Login",
+	"search": "Search",
+	"dictionaries": "Dictionaries",
+	"wordOfTheDay": "Word of the day",
+	"languages": {
+		"english": "English",
+		"russian": "Russian",
+		"lezgi": "Lezgi"
+	}
+}

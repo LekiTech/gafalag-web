@@ -1,0 +1,12 @@
+{
+	"sources": "Источники",
+	"login": "Войти",
+	"search": "Поиск",
+	"dictionaries": "Словари",
+	"wordOfTheDay": "Слово дня",
+	"languages": {
+		"english": "Английский",
+		"russian": "Русский",
+		"lezgi": "Лезгинский"
+	}
+}

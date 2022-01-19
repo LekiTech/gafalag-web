@@ -17,6 +17,7 @@
       // Always add it also to tsconfig.json
       "@/*": [ "src/*"],
     },
+    "resolveJsonModule": true,
   },
   "exclude": [
     "node_modules"
