@@ -20,11 +20,11 @@ function SearchBar() {
   `;
 
   return (
-		<div style={{minWidth: '600px', height: '45px', display: 'flex', marginTop: '70px'}}>
-			<div className="searchInput">
+		<div style={{width: '100%', height: '45px', display: 'flex', marginTop: '70px'}}>
+			<div className="search-input">
 				<SearchInput type="search" />
 			</div>
-			<div className="searchButton">
+			<div className="search-button">
 				<span>{t('search')}</span>
 			</div>
 		</div>

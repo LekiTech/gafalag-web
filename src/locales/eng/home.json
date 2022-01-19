@@ -3,10 +3,13 @@
 	"login": "Login",
 	"search": "Search",
 	"dictionaries": "Dictionaries",
+	"explanatoryDictionary": "Explanatory dictionary",
 	"wordOfTheDay": "Word of the day",
 	"languages": {
-		"english": "English",
-		"russian": "Russian",
-		"lezgi": "Lezgi"
+		"eng": "English",
+		"rus": "Russian",
+		"lez": "Lezgi",
+		"tab": "Tabasaran",
+		"aze": "Azerbaijani"
 	}
 }

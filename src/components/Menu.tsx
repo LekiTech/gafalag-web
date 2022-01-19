@@ -5,9 +5,9 @@ function Menu() {
   const { t } = useTranslation();
   
   return (
-    <div style={styles.container} className="menu-container">
+    <div style={styles.container}>
       <div style={styles.pageLink}><a>{t('sources')}</a></div>
-      <div style={styles.pageLink}><a>{t('languages.lezgi')}</a></div>
+      <div style={styles.pageLink}><a>{t('languages.rus')}</a></div>
       <div style={styles.login}><a>{t('login')}</a></div>
     </div>
   );
@@ -31,6 +31,7 @@ const styles: Record<string, React.CSSProperties> = {
     lineHeight: '18px',
     color: '#0D4949',
     marginRight: '30px',
+    cursor: 'pointer',
   },
   login: {
     display: 'flex',
@@ -40,6 +41,7 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '10px 20px',
     background: '#0D4949',
     borderRadius: '100px',
+    cursor: 'pointer',
 
     fontFamily: 'Roboto',
     fontStyle: 'normal',
