@@ -1,3 +1,4 @@
+import { Language } from '@/store/app/app.enum';
 import images from '@/store/images';
 import { TFunction } from 'i18next';
 import React from 'react';
@@ -5,19 +6,27 @@ import { useTranslation } from 'react-i18next';
 
 type LanguageDictionaries = {
 	langIso3: string;
-	otherLanguagesIso3: string[];
+	isExplanatoryAvailable: boolean;
+	otherLanguages: {
+		iso2: string;
+		isAvailable: boolean;
+	}[];
 }
 function createDictionariesForLanguage(dictData: LanguageDictionaries, t: TFunction) {
 
 	return (
-		<div style={styles.dictBlock}>
+		<div style={styles.dictBlock} key={dictData.langIso3}>
 			<span style={styles.dictHeader}>{t(`languages.${dictData.langIso3}`)}</span>
-			<span style={styles.dictName}>{t(`explanatoryDictionary`)}</span>
-			{dictData.otherLanguagesIso3.map(otherIso3Lang => (
-				<div style={{...styles.dictName, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+			<span style={styles.dictName} className={dictData.isExplanatoryAvailable ? '' : 'non-active'} >{t(`explanatoryDictionary`)}</span>
+			{dictData.otherLanguages.map(otherLang => (
+				<div 
+					style={{...styles.dictName, display: 'flex', flexDirection: 'row', alignItems: 'center'}} 
+					className={otherLang.isAvailable ? '' : 'non-active'} 
+					key={`${dictData.langIso3}_${otherLang.iso2}`}
+				>
 					<span>{t(`languages.${dictData.langIso3}`)}</span>
-					<img width={16} height={16} style={{margin: '0 8px'}} src={images.doubleArrows} />
-					<span>{t(`languages.${otherIso3Lang}`)}</span>
+					<img width={16} height={16} style={{margin: '0 8px'}} src={otherLang.isAvailable ? images.doubleArrowsRed : images.doubleArrowsGrey} />
+					<span>{t(`languages.${otherLang.iso2}`)}</span>
 				</div>
 			))}
 		</div>
@@ -27,19 +36,21 @@ function createDictionariesForLanguage(dictData: LanguageDictionaries, t: TFunct
 function Dictionaries() {
   const { t } = useTranslation();
   const lez: LanguageDictionaries = {
-		langIso3: 'lez',
-		otherLanguagesIso3: [
-			'rus',
-			'aze',
-			'eng'
+		langIso3: Language.LEZGI,
+		isExplanatoryAvailable: false,
+		otherLanguages: [
+			{ iso2: Language.RUSSIAN, isAvailable: true },
+			{ iso2: Language.AZERI, isAvailable: false },
+			{ iso2: Language.ENGLISH, isAvailable: false }
 		]
 	}
 	const tab: LanguageDictionaries = {
-		langIso3: 'tab',
-		otherLanguagesIso3: [
-			'rus',
-			'aze',
-			'eng'
+		langIso3: Language.TABASARAN,
+		isExplanatoryAvailable: false,
+		otherLanguages: [
+			{ iso2: Language.RUSSIAN, isAvailable: false },
+			{ iso2: Language.AZERI, isAvailable: false },
+			{ iso2: Language.ENGLISH, isAvailable: false }
 		]
 	}
   return (

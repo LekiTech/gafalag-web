@@ -7,7 +7,7 @@ import homeLez from './locales/lez/home.json';
 
 export const defaultNS = 'home'
 export const resources = {
-  en: {
+  eng: {
     home: homeEng,
   },
 	rus: {
@@ -19,7 +19,7 @@ export const resources = {
 } as const;
 
 i18n.use(initReactI18next).init({
-  lng: 'en',
+  lng: 'eng',
   ns: ['home'],
   defaultNS,
   resources,

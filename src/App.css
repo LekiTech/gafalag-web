@@ -64,3 +64,8 @@
   line-height: 20px;
   color: #FFFFFF;
 }
+
+.non-active {
+  color: #6F6F6F !important;
+  cursor: auto !important;
+}
