@@ -5,6 +5,9 @@
 	"dictionaries": "Dictionaries",
 	"explanatoryDictionary": "Explanatory dictionary",
 	"wordOfTheDay": "Word of the day",
+	"language": "Language",
+	"dialect": "Dialect",
+	"source": "Source",
 	"languages": {
 		"eng": "English",
 		"rus": "Russian",

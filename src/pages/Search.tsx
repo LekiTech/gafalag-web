@@ -13,6 +13,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ExpressionDto } from '@/store/dictionary/dictionary.type';
 import Expression from '@/components/Expression';
 import { cyrb53Hash } from '@/utils';
+import RoutesPaths from '@/RoutesPaths';
 
 
 function Search() {
@@ -44,7 +45,17 @@ function Search() {
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', width: '100vw', minHeight: '100vh'}}>
       <Menu />
       <div style={styles(isMobileDevice).searchContainer}>
-        <img src={images.logo} className="App-logo" alt="logo" style={{ height: 'auto', width: '248px', marginRight: isMobileDevice ? 0 : '30px' }} />
+        <div
+          style={{ height: 'fit-content', width: 'fit-content', marginRight: isMobileDevice ? 0 : '30px', cursor: 'pointer' }} 
+          onClick={() => navigate(RoutesPaths.Home)}
+        >
+          <img 
+            src={images.logo}
+            className="App-logo"
+            alt="logo"
+            style={{ height: 'auto', width: '248px'}}
+          />
+        </div>
         <SearchBar expression={searchQuery ?? location.state.expression} style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} />
       </div>
       <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>

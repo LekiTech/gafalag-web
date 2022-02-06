@@ -4,6 +4,7 @@ import './Expression.css';
 import { ExpressionDto } from '@/store/dictionary/dictionary.type';
 import { DefinitionTextType, definitionToFormatJson } from '@/store/dictionary/utils';
 import { cyrb53Hash } from '@/utils';
+import { useTranslation } from 'react-i18next';
 
 
 function FormattedDefinitionText(props: {definition: string}) {
@@ -35,8 +36,14 @@ function FormattedDefinitionText(props: {definition: string}) {
 }
 
 
+function getDynamicLanguageTranslation(t: any, languageId: string) {
+	// @ts-ignore
+	return t(`languages.${languageId}`);
+}
+
 function Expression(props: {expression: ExpressionDto}) {
 	const { expression } = props;
+  const { t } = useTranslation();
   // const isMobileDevice = isMobile();
   return (
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start'}}>
@@ -53,14 +60,14 @@ function Expression(props: {expression: ExpressionDto}) {
 					}
 				</span>
 				<div className="expression_info_block">
-					<span className="info_row">lang: <span>{expression.languageId}</span></span>
-					<span className="info_row">dialect: <span>-</span></span>
+					<span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, expression.languageId)}</span></span>
+					<span className="info_row">{t('dialect')}: <span>-</span></span>
 				</div>
 				{
 					expression.definitions.map(def => (
 						<div className="expression_info_block" key={cyrb53Hash(def.text)}>
-							<span className="info_row">source: <span>{def.sourceId}</span></span>
-							<span className="info_row">lang: <span>{def.languageId}</span></span>
+							<span className="info_row">{t('source')}: <span>{def.sourceId}</span></span>
+							<span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span>
 							<span className="definition"><FormattedDefinitionText definition={def.text} /></span>
 						</div>
 					))
@@ -69,19 +76,5 @@ function Expression(props: {expression: ExpressionDto}) {
     </div>
   );
 }
-
-const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> => ({
-  searchContainer: {
-    display: 'flex',
-    height: '160px',
-    width: '100vw',
-    padding: isMobileDevice ? '0 0 30px 0' : '0 0 30px 30px',
-    marginTop: isMobileDevice ? '50px' : 0,
-    flexDirection: isMobileDevice ? 'column' : 'row',
-    alignItems: 'center',
-    justifyContent: isMobileDevice ? 'center' : 'stretch',
-    borderBottom: '1px solid #DADCE0',
-  },
-});
 
 export default Expression;
