@@ -1,0 +1,18 @@
+{
+	"sources": "Источники",
+	"login": "Войти",
+	"search": "Поиск",
+	"dictionaries": "Словари",
+	"explanatoryDictionary": "Толковый словарь",
+	"wordOfTheDay": "Слово дня",
+	"language": "Язык",
+	"dialect": "Диалект",
+	"source": "Источник",
+	"languages": {
+		"eng": "Английский",
+		"rus": "Русский",
+		"lez": "Лезгинский",
+		"tab": "Табасаранский",
+		"aze": "Азербайджанский"
+	}
+}

@@ -14,6 +14,9 @@ module.exports = (webpackEnv, options) => {
   console.info('\x1b[36m' + '> REACT ENV:', envFilename, '\x1b[0m\n');
   return {
     devtool: isEnvProduction ? undefined : 'source-map',
+    devServer: {
+      historyApiFallback: true,
+    },
     entry: './src/index.tsx',
     output: {
       path: path.resolve(__dirname, 'build'),

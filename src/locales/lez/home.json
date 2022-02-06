@@ -1,0 +1,18 @@
+{
+	"sources": "Источники",
+	"login": "Войти",
+	"search": "Акун",
+	"dictionaries": "Словари",
+	"explanatoryDictionary": "Толковый словарь",
+	"wordOfTheDay": "Слово дня",
+	"language": "ЧIал",
+	"dialect": "Диалект",
+	"source": "Источник",
+	"languages": {
+		"eng": "Инглис",
+		"rus": "Урус",
+		"lez": "Лезги",
+		"tab": "Табасаран",
+		"aze": "Азербайджан"
+	}
+}
