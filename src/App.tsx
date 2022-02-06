@@ -9,6 +9,10 @@ import SearchBar from './components/SearchBar';
 import Menu from './components/Menu';
 import Dictionaries from './components/Dictionaries';
 import { AppReduxState } from './store/app/app.types';
+import { Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Search from './pages/Search';
+import RoutesPaths from './RoutesPaths';
 
 function App() {
   const app = useSelector((state: any): AppReduxState => state.app);
@@ -19,12 +23,10 @@ function App() {
 
   return (
     <div className="App">
-      <Menu />
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '700px'}}>
-        <img src={images.logo} className="App-logo" alt="logo" />
-        <SearchBar />
-        <Dictionaries />
-      </div>
+      <Routes>
+        <Route path={RoutesPaths.Home} element={<Home />} />
+        <Route path={RoutesPaths.Search} element={<Search />} />
+      </Routes>
     </div>
   );
 }

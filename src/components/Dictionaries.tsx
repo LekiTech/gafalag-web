@@ -3,6 +3,7 @@ import images from '@/store/images';
 import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { isMobile } from '@/responsiveUtils';
 
 type LanguageDictionaries = {
 	langIso3: string;
@@ -53,13 +54,16 @@ function Dictionaries() {
 			{ iso2: Language.ENGLISH, isAvailable: false }
 		]
 	}
+	
+  const isMobileDevice = isMobile();
+
   return (
     <div style={styles.container}>
       <div style={styles.titleBlock}>
 				<span>{t('dictionaries')}</span>
 			</div>
 			<div style={styles.contentBlock}>
-				<div style={styles.contentRow}>
+				<div style={isMobileDevice ? styles.contentColumn : styles.contentRow}>
 					{createDictionariesForLanguage(lez, t)}
 					{createDictionariesForLanguage(tab, t)}
 				</div>
@@ -110,11 +114,18 @@ const styles: Record<string, React.CSSProperties> = {
 		justifyContent: 'space-between',
 		margin: '0 40px',
 	},
+	contentColumn: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		margin: '40px 0',
+	},
 	dictBlock: {
 		display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
     flexDirection: 'column',
+		marginBottom: '20px',
 	},
 	dictHeader: {
 		fontFamily: 'Poppins, sans-serif',

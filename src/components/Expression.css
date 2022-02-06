@@ -1,0 +1,53 @@
+.expression_spelling {
+	font-family: 'Poppins', sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 32px;
+	line-height: 54px;
+	color: #343643;
+}
+
+.expression_inflection {
+	margin-left: 10px;
+	font-family: 'Poppins', sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 27px;
+	color: #343643;	
+}
+
+.expression_info_block {
+	display: flex;
+	flex-direction: column;
+	margin: 10px 0;
+}
+
+.info_row {
+	font-family: 'Poppins', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 21px;
+	color: #6C6C6C;
+	margin-bottom: 2px;
+}
+
+.info_row span {
+	font-family: 'Poppins', sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 21px;
+	color: #343643;
+}
+
+.definition {
+	margin-top: 10px;
+	font-family: 'Poppins', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 21px;
+	color: #343643;
+}
