@@ -62,7 +62,7 @@ function Menu() {
           </div>
         }
       </div>
-      <div style={styles.login}><a>{t('login')}</a></div>
+      {/* <div style={styles.login}><a>{t('login')}</a></div> */}
     </div>
   );
 }

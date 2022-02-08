@@ -1,10 +1,11 @@
 import React from 'react';
 import '@/i18n';
 import './Expression.css';
-import { ExpressionDto } from '@/store/dictionary/dictionary.type';
+import { DictionaryReduxState, ExpressionDto } from '@/store/dictionary/dictionary.type';
 import { DefinitionTextType, definitionToFormatJson } from '@/store/dictionary/utils';
 import { cyrb53Hash } from '@/utils';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 
 function FormattedDefinitionText(props: {definition: string}) {
@@ -20,7 +21,7 @@ function FormattedDefinitionText(props: {definition: string}) {
 							</span>);
 					case DefinitionTextType.EXAMPLE:
 						return (
-							<span key={cyrb53Hash(textObj.text) + '_' + i} style={{fontStyle: 'italic', color: '#6C6C6C'}}>
+							<span key={cyrb53Hash(textObj.text) + '_' + i} style={{fontStyle: 'italic', color: '#0D4949'}}>
 								{textObj.text}
 							</span>);
 					default:
@@ -43,10 +44,11 @@ function getDynamicLanguageTranslation(t: any, languageId: string) {
 
 function Expression(props: {expression: ExpressionDto}) {
 	const { expression } = props;
+	const dict = useSelector((state: any): DictionaryReduxState => state.dictionary);
   const { t } = useTranslation();
   // const isMobileDevice = isMobile();
   return (
-    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start'}}>
+    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', marginBottom: '20px', paddingBottom: '10px', borderBottom: '1px solid #DADCE0'}}>
       <div>
 				{/* media buttons */}
 			</div>
@@ -59,19 +61,26 @@ function Expression(props: {expression: ExpressionDto}) {
 						</span>
 					}
 				</span>
-				<div className="expression_info_block">
+				{ // FIXME: show this data in a correct way but not in disturbing way for the users
+				/* <div className="expression_info_block">
 					<span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, expression.languageId)}</span></span>
 					<span className="info_row">{t('dialect')}: <span>-</span></span>
+				</div> */}
+				<div style={{marginLeft: '0px'}}>
+					{
+						expression.definitions.map(def => (
+							<div className="expression_info_block" key={cyrb53Hash(def.text)}>
+								{/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
+								<span className="definition"><FormattedDefinitionText definition={def.text} /></span>
+								{
+									dict.sources != undefined &&
+									<span className="info_row">{t('source')}: <span>{dict.sources[def.sourceId].name}</span></span>
+
+								}
+							</div>
+						))
+					}
 				</div>
-				{
-					expression.definitions.map(def => (
-						<div className="expression_info_block" key={cyrb53Hash(def.text)}>
-							<span className="info_row">{t('source')}: <span>{def.sourceId}</span></span>
-							<span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span>
-							<span className="definition"><FormattedDefinitionText definition={def.text} /></span>
-						</div>
-					))
-				}
 			</div>
     </div>
   );
