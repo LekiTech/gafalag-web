@@ -1,5 +1,5 @@
 import BaseAPI from '@/store/BaseAPI';
-import { ExpressionDto } from './dictionary.type';
+import { ExpressionDto, Source } from './dictionary.type';
 // import { } from './dictionary.types';
 
 class DictionaryAPI extends BaseAPI {
@@ -14,6 +14,15 @@ class DictionaryAPI extends BaseAPI {
     }
   }
 
+  public async getAllDictionaries(): Promise<Source[]> {
+    try {
+      const response = await this.get("/source");
+			return response.data;
+    } catch (e: any) {
+      this.log(e);
+      throw e;
+    }
+  }
 }
 
 export default new DictionaryAPI();

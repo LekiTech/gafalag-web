@@ -1,24 +1,23 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import images from './store/images';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import './i18n';
 
-import SearchBar from './components/SearchBar';
-import Menu from './components/Menu';
-import Dictionaries from './components/Dictionaries';
 import { AppReduxState } from './store/app/app.types';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import RoutesPaths from './RoutesPaths';
+import { DictionaryActions } from './store/dictionary/dictionary.module';
 
 function App() {
   const app = useSelector((state: any): AppReduxState => state.app);
+  const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(app.languageId);
+    dispatch(DictionaryActions.downloadSources());
   }, [app.languageId]);
 
   return (

@@ -1,3 +1,14 @@
+export type DictionaryReduxState = {
+	sources?: Record<string, Source>;
+}
+
+export type Source = {
+	id: string;
+	name: string;
+	url?: string;
+	createdAt: string;
+}
+
 export type ExpressionDto = {
 	id: string;
 	spelling: string;

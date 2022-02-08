@@ -1,10 +1,13 @@
 .expression_spelling {
 	font-family: 'Poppins', sans-serif;
 	font-style: normal;
-	font-weight: bold;
+	/* font-weight: bold;
 	font-size: 32px;
-	line-height: 54px;
-	color: #343643;
+	line-height: 54px; */
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 27px;
+	color: #0D4949;
 }
 
 .expression_inflection {
@@ -12,9 +15,9 @@
 	font-family: 'Poppins', sans-serif;
 	font-style: normal;
 	font-weight: bold;
-	font-size: 20px;
-	line-height: 27px;
-	color: #343643;	
+	font-size: 16px;
+	line-height: 20px;
+	color: #0D4949;	
 }
 
 .expression_info_block {
@@ -27,27 +30,28 @@
 	font-family: 'Poppins', sans-serif;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 21px;
-	color: #6C6C6C;
 	margin-bottom: 2px;
+	color: #70757a;
 }
 
 .info_row span {
 	font-family: 'Poppins', sans-serif;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 14px;
+	font-style: italic;
+	/* font-weight: bold; */
+	font-size: 12px;
 	line-height: 21px;
 	color: #343643;
 }
 
 .definition {
-	margin-top: 10px;
+	/* margin-top: 10px; */
+	margin-bottom: 10px;
 	font-family: 'Poppins', sans-serif;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 14px;
+	font-size: 16px;
 	line-height: 21px;
-	color: #343643;
+	color: #000000;
 }

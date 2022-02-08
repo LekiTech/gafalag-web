@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, StoreEnhancer, Reducer, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { AppReducer } from '@/store/app/app.module';
+import { DictionaryReducer } from '@/store/dictionary/dictionary.module';
 import { LoadingReducer } from '@/store/loading/loading.module';
 import { useDispatch } from 'react-redux';
 
@@ -20,6 +21,7 @@ let middleware: StoreEnhancer = applyMiddleware(thunk);
 
 const appReducer = combineReducers({
   app: AppReducer,
+	dictionary: DictionaryReducer,
 	loading: LoadingReducer,
 });
 
