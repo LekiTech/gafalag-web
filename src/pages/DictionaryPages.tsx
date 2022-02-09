@@ -15,7 +15,7 @@ import RoutesPaths from '@/RoutesPaths';
 import { SearchParams } from '@/store/dictionary/dictionary.enum';
 
 
-function Search() {
+function DictionaryPages() {
   const isMobileDevice = isMobile();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const navigate = useNavigate();
@@ -68,4 +68,4 @@ const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> =>
   },
 });
 
-export default Search;
+export default DictionaryPages;

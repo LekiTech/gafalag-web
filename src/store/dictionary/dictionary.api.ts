@@ -23,6 +23,17 @@ class DictionaryAPI extends BaseAPI {
       throw e;
     }
   }
+
+  public async getPaginatedData(): Promise<Source[]> {
+    try {
+      const response = await this.get("/source");
+			return response.data;
+    } catch (e: any) {
+      this.log(e);
+      throw e;
+    }
+  }
+  
 }
 
 export default new DictionaryAPI();

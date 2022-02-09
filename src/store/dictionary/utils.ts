@@ -12,7 +12,6 @@ export type DefinitionTextObj = {
 const splitRegex = /({|}|<|>)/;
 
 export function definitionToFormatJson(definition: string) {
-	// console.log('_' + definition + '_');
 	const result: DefinitionTextObj[] = [];
 	const splitted = definition.split(splitRegex);
 

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import images from '@/store/images';
 import { useTranslation } from 'react-i18next';
-import { useQueryParam } from '@/customHooks';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams, createSearchParams } from 'react-router-dom';
 import RoutesPaths from '@/RoutesPaths';
+import { SearchParams } from '@/store/dictionary/dictionary.enum';
 
 
 // Define otside of function component to prevent rerender on value change
@@ -23,11 +23,16 @@ const SearchInput = styled.input`
 
 function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
   const { t } = useTranslation();
-  const [searchQuery, setSearchQuery] = useQueryParam<string>('expression');
+  const [searchQuery, setSearchQuery] = useSearchParams();
+  const setExpressionSearchQuery = (expression: string) => setSearchQuery(new URLSearchParams({[SearchParams.expression]: expression}));
   const navigate = useNavigate();
   const location = useLocation();
 
   const [expression, setExpression] = useState(props.expression ??  '');
+  useEffect(() => {
+    setExpression(props.expression ??  '');
+  }, [props.expression]);
+
   const onFieldInput = (event: any) => {
 		const fieldElement = event.target;
 		setExpression(fieldElement.value);
@@ -37,11 +42,13 @@ function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
     if (expression == undefined || expression.length === 0) {
       return;
     }
-    if (location.pathname === RoutesPaths.Home) {
-      setSearchQuery(expression);
-      navigate(RoutesPaths.Search, { state: {expression} });
+    if (location.pathname === RoutesPaths.Search) {
+      setExpressionSearchQuery(expression);
     } else {
-      setSearchQuery(expression);
+      navigate({
+        pathname: RoutesPaths.Search, 
+        search: `?${createSearchParams({expression})}`,
+      });
     }
   };
 
