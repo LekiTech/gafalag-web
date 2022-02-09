@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Search from './pages/Search';
 import RoutesPaths from './RoutesPaths';
 import { DictionaryActions } from './store/dictionary/dictionary.module';
+import DictionaryPages from './pages/DictionaryPages';
 
 function App() {
   const app = useSelector((state: any): AppReduxState => state.app);
@@ -17,6 +18,7 @@ function App() {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(app.languageId);
+    console.log('Downloading sources');
     dispatch(DictionaryActions.downloadSources());
   }, [app.languageId]);
 
@@ -25,6 +27,7 @@ function App() {
       <Routes>
         <Route path={RoutesPaths.Home} element={<Home />} />
         <Route path={RoutesPaths.Search} element={<Search />} />
+        <Route path={RoutesPaths.Dictionary} element={<DictionaryPages />} />
       </Routes>
     </div>
   );

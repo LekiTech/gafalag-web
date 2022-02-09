@@ -4,28 +4,31 @@ import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { isMobile } from '@/responsiveUtils';
+import RoutesPaths from '@/RoutesPaths';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 type LanguageDictionaries = {
-	langIso3: string;
+	iso2: string;
 	isExplanatoryAvailable: boolean;
 	otherLanguages: {
 		iso2: string;
 		isAvailable: boolean;
 	}[];
 }
-function createDictionariesForLanguage(dictData: LanguageDictionaries, t: TFunction) {
+function createDictionariesForLanguage(dictData: LanguageDictionaries, t: TFunction, goToDictionary: (params: {fromLang: string, toLang?: string}) => void) {
 
 	return (
-		<div style={styles.dictBlock} key={dictData.langIso3}>
-			<span style={styles.dictHeader}>{t(`languages.${dictData.langIso3}`)}</span>
+		<div style={styles.dictBlock} key={dictData.iso2}>
+			<span style={styles.dictHeader}>{t(`languages.${dictData.iso2}`)}</span>
 			<span style={styles.dictName} className={dictData.isExplanatoryAvailable ? '' : 'non-active'} >{t(`explanatoryDictionary`)}</span>
 			{dictData.otherLanguages.map(otherLang => (
 				<div 
 					style={{...styles.dictName, display: 'flex', flexDirection: 'row', alignItems: 'center'}} 
 					className={otherLang.isAvailable ? '' : 'non-active'} 
-					key={`${dictData.langIso3}_${otherLang.iso2}`}
+					key={`${dictData.iso2}_${otherLang.iso2}`}
+					onClick={() => otherLang.isAvailable ? goToDictionary({fromLang: dictData.iso2, toLang: otherLang.iso2}) : null}
 				>
-					<span>{t(`languages.${dictData.langIso3}`)}</span>
+					<span>{t(`languages.${dictData.iso2}`)}</span>
 					<img width={16} height={16} style={{margin: '0 8px'}} src={otherLang.isAvailable ? images.doubleArrowsRed : images.doubleArrowsGrey} />
 					<span>{t(`languages.${otherLang.iso2}`)}</span>
 				</div>
@@ -36,8 +39,10 @@ function createDictionariesForLanguage(dictData: LanguageDictionaries, t: TFunct
 
 function Dictionaries() {
   const { t } = useTranslation();
+	const navigate = useNavigate()
+	
   const lez: LanguageDictionaries = {
-		langIso3: Language.LEZGI,
+		iso2: Language.LEZGI,
 		isExplanatoryAvailable: false,
 		otherLanguages: [
 			{ iso2: Language.RUSSIAN, isAvailable: true },
@@ -46,7 +51,7 @@ function Dictionaries() {
 		]
 	}
 	const tab: LanguageDictionaries = {
-		langIso3: Language.TABASARAN,
+		iso2: Language.TABASARAN,
 		isExplanatoryAvailable: false,
 		otherLanguages: [
 			{ iso2: Language.RUSSIAN, isAvailable: false },
@@ -57,6 +62,11 @@ function Dictionaries() {
 	
   const isMobileDevice = isMobile();
 
+	const goToDictionary = (params: {fromLang: string, toLang?: string}) => navigate({
+		pathname: RoutesPaths.Dictionary, 
+		search: `?${createSearchParams(params)}`,
+	});
+
   return (
     <div style={styles.container}>
       <div style={styles.titleBlock}>
@@ -64,8 +74,8 @@ function Dictionaries() {
 			</div>
 			<div style={styles.contentBlock}>
 				<div style={isMobileDevice ? styles.contentColumn : styles.contentRow}>
-					{createDictionariesForLanguage(lez, t)}
-					{createDictionariesForLanguage(tab, t)}
+					{createDictionariesForLanguage(lez, t, goToDictionary)}
+					{createDictionariesForLanguage(tab, t, goToDictionary)}
 				</div>
 			</div>
     </div>

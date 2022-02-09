@@ -1,5 +1,5 @@
 import BaseAPI from '@/store/BaseAPI';
-import { ExpressionDto, Source } from './dictionary.type';
+import { ExpressionDto, Paginated, Source } from './dictionary.type';
 // import { } from './dictionary.types';
 
 class DictionaryAPI extends BaseAPI {
@@ -24,9 +24,15 @@ class DictionaryAPI extends BaseAPI {
     }
   }
 
-  public async getPaginatedData(): Promise<Source[]> {
+  public async getPaginatedData(params: {
+    page: number;
+    size: number;
+    lang?: string;
+    sortBy?: string;
+    descending?: boolean;
+  }): Promise<Paginated<ExpressionDto>> {
     try {
-      const response = await this.get("/source");
+      const response = await this.get("/expression", { params });
 			return response.data;
     } catch (e: any) {
       this.log(e);

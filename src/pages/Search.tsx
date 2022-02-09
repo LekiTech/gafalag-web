@@ -48,7 +48,7 @@ function Search() {
         <SearchBar expression={expression ?? ''} style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} />
       </div>
       <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
-        {result.map(exp => <Expression expression={exp} key={cyrb53Hash(exp.spelling)} />)}
+        {result.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} />)}
       </div>
     </div>
   );

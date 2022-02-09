@@ -36,7 +36,6 @@ function FormattedDefinitionText(props: {definition: string}) {
 	);
 }
 
-
 function getDynamicLanguageTranslation(t: any, languageId: string) {
 	// @ts-ignore
 	return t(`languages.${languageId}`);
@@ -46,6 +45,7 @@ function Expression(props: {expression: ExpressionDto}) {
 	const { expression } = props;
 	const dict = useSelector((state: any): DictionaryReduxState => state.dictionary);
   const { t } = useTranslation();
+
   // const isMobileDevice = isMobile();
   return (
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', marginBottom: '20px', paddingBottom: '10px', borderBottom: '1px solid #DADCE0'}}>
@@ -73,7 +73,7 @@ function Expression(props: {expression: ExpressionDto}) {
 								{/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
 								<span className="definition"><FormattedDefinitionText definition={def.text} /></span>
 								{
-									dict.sources != undefined &&
+									dict.sources != undefined && dict.sources[def.sourceId] != undefined &&
 									<span className="info_row">{t('source')}: <span>{dict.sources[def.sourceId].name}</span></span>
 
 								}
