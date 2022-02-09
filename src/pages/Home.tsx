@@ -6,6 +6,7 @@ import SearchBar from '@/components/SearchBar';
 import Menu from '@/components/Menu';
 import Dictionaries from '@/components/Dictionaries';
 import { isMobile } from '@/responsiveUtils';
+import Sources from '@/components/Sources';
 
 
 function Home() {
@@ -17,6 +18,7 @@ function Home() {
         <img src={images.logo} className="App-logo" alt="logo" style={{ height: 'auto', width: isMobileDevice ? '40vw' : '372px', minWidth: '248px' }} />
         <SearchBar style={{marginTop: isMobileDevice ? '7vw' : '70px'}} />
         <Dictionaries />
+        <Sources />
       </div>
     </div>
   );

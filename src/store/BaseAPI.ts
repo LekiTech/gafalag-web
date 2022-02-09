@@ -6,7 +6,7 @@ interface Options {
 
 export default class BaseAPI {
   private baseUrl: string | undefined;
-  private logEnabled = true;
+  private logEnabled = process.env.NODE_ENV === 'development';
   private headers: Record<string, any> = {};
 
 

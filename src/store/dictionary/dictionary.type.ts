@@ -22,3 +22,11 @@ export type Definition = {
 	languageId: string;
 	sourceId: string;
 };
+
+export type Paginated<T> = {
+	totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+  items: T[];
+}

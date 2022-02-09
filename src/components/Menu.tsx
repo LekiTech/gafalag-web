@@ -34,13 +34,11 @@ function Menu() {
   useOutsideAlerter(languagesButtonRef, () => setShowLanguages(false));
   const selectLang = (lang: string) => {
     setShowLanguages(false);
-    console.log('SELECTED LANG ' + lang)
     dispatch(AppActions.setLanguageId(lang));
   };
-  console.log(showLanguages);
   return (
     <div style={styles.container}>
-      <div style={styles.pageLink}><a>{t('sources')}</a></div>
+      {/* <div style={styles.pageLink}><a>{t('sources')}</a></div> */}
       <div 
         style={{...styles.pageLink}}
         ref={languagesButtonRef}
