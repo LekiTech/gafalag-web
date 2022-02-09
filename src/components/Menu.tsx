@@ -38,7 +38,7 @@ function Menu() {
   };
   return (
     <div style={styles.container}>
-      <div style={styles.pageLink}><a>{t('sources')}</a></div>
+      {/* <div style={styles.pageLink}><a>{t('sources')}</a></div> */}
       <div 
         style={{...styles.pageLink}}
         ref={languagesButtonRef}
