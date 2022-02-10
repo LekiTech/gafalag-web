@@ -167,6 +167,7 @@ const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> =>
     margin: '0 5px',
     color: '#0D4949',
     cursor: 'pointer',
+    userSelect: 'none',
   }
 });
 
