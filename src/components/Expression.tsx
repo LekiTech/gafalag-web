@@ -6,10 +6,13 @@ import { DefinitionTextType, definitionToFormatJson } from '@/store/dictionary/u
 import { cyrb53Hash } from '@/utils';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import RoutesPaths from '@/RoutesPaths';
 
 
 function FormattedDefinitionText(props: {definition: string}) {
 	const { definition } = props;
+  const navigate = useNavigate();
 	return (
 		<>
 			{definitionToFormatJson(definition).map((textObj, i) => {
@@ -21,7 +24,21 @@ function FormattedDefinitionText(props: {definition: string}) {
 							</span>);
 					case DefinitionTextType.EXAMPLE:
 						return (
-							<span key={cyrb53Hash(textObj.text) + '_' + i} style={{fontStyle: 'italic', color: '#0D4949'}}>
+							<span 
+								key={cyrb53Hash(textObj.text) + '_' + i}
+								style={{
+									fontStyle: 'italic',
+									color: '#0D4949',
+									textDecorationLine: 'underline',
+									textDecorationStyle: 'dotted',
+									textUnderlineOffset: '3px',
+									cursor: 'pointer'
+								}}
+								onClick={() => navigate({
+									pathname: RoutesPaths.Search, 
+									search: `?${createSearchParams({expression: textObj.text})}`,
+								})}
+							>
 								{textObj.text}
 							</span>);
 					default:
