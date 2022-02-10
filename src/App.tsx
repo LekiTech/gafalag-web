@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import './App.css';
+import "./style.scss";
 import './i18n';
 
 import { AppReduxState } from './store/app/app.types';

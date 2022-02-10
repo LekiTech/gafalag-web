@@ -85,7 +85,7 @@ function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
   }
 
   const showSuggestions = isSearchInputFocussed && suggestions && suggestions.length > 0;
-  console.log('showSuggestions', showSuggestions)
+
   return (
 		<div style={{width: '100%', display: 'flex', ...props.style}}>
 			<div className="search-input" style={{borderBottomLeftRadius: showSuggestions ? '0' : '25px'}}>
