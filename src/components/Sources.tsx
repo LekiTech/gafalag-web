@@ -60,7 +60,6 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     flexDirection: 'column',
 		width: '100%',
-		marginTop: '100px'
   },
   titleBlock: {
     display: 'flex',
