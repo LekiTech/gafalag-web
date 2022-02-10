@@ -14,6 +14,16 @@ class DictionaryAPI extends BaseAPI {
     }
   }
 
+  public async searchSuggestions(expression: string): Promise<string[]> {
+    try {
+      const response = await this.get("/expression/search/suggestions", { params: { exp: expression } });
+			return response.data;
+    } catch (e: any) {
+      this.log(e);
+      throw e;
+    }
+  }
+
   public async getAllDictionaries(): Promise<Source[]> {
     try {
       const response = await this.get("/source");
