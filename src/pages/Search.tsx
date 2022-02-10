@@ -35,7 +35,7 @@ function Search() {
       <Menu />
       <div style={styles(isMobileDevice).searchContainer}>
         <div
-          style={{ height: 'fit-content', width: 'fit-content', marginRight: isMobileDevice ? 0 : '30px', cursor: 'pointer' }} 
+          style={{ height: 'fit-content', width: 'fit-content', alignSelf: 'center', marginRight: isMobileDevice ? 0 : '30px', cursor: 'pointer' }} 
           onClick={() => navigate(RoutesPaths.Home)}
         >
           <img 
@@ -62,8 +62,8 @@ const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> =>
     padding: isMobileDevice ? '0 0 30px 0' : '0 0 30px 30px',
     marginTop: isMobileDevice ? '50px' : 0,
     flexDirection: isMobileDevice ? 'column' : 'row',
-    alignItems: 'center',
-    justifyContent: isMobileDevice ? 'center' : 'stretch',
+    alignItems: isMobileDevice ? 'center' : 'flex-start',
+    justifyContent: isMobileDevice ? 'flex-start' : 'stretch',
     borderBottom: '1px solid #DADCE0',
   },
 });
