@@ -25,6 +25,9 @@ const SearchInput = styled.input`
 }
 `;
 
+// Use memo to prevent superfluous API calls 
+const suggestionsMemo: Record<string, string[]> = {};
+
 function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useSearchParams();
@@ -44,7 +47,16 @@ function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
   const onFieldInput = (event: any) => {
 		const fieldElement = event.target;
 		setExpression(fieldElement.value);
-    DictionaryAPI.searchSuggestions(fieldElement.value).then(data => setSuggestions(data));
+    if (suggestionsMemo[fieldElement.value]) {
+      setSuggestions(suggestionsMemo[fieldElement.value]);
+    } else if (fieldElement.value && fieldElement.value.trim().length > 0) {
+      DictionaryAPI.searchSuggestions(fieldElement.value).then(data => {
+        suggestionsMemo[fieldElement.value] = data;
+        setSuggestions(data);
+      });
+    } else {
+      setSuggestions([]); 
+    }
 	};
 
   const performSearch = (expression: string) => {
@@ -71,10 +83,12 @@ function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
   const onSuggestionClick = (suggestion: string) => {
     performSearch(suggestion);
   }
-  
+
+  const showSuggestions = isSearchInputFocussed && suggestions && suggestions.length > 0;
+  console.log('showSuggestions', showSuggestions)
   return (
 		<div style={{width: '100%', display: 'flex', ...props.style}}>
-			<div className="search-input">
+			<div className="search-input" style={{borderBottomLeftRadius: showSuggestions ? '0' : '25px'}}>
 				<SearchInput
           key="searchBar"
           type="search"
@@ -84,14 +98,16 @@ function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
           onFocus={() => setIsSearchInputFocussed(true)}
           onBlur={() => setIsSearchInputFocussed(false)}
         />
-        {isSearchInputFocussed && suggestions && suggestions.length > 0 && // isSearchInputFocussed && 
-          <div className="suggestions-container">
-            {suggestions.map((sug, i) =>  (
-              // onMouseDown fires before onBlur
-              <span key={cyrb53Hash(sug) + '_' + i} onMouseDown={() => onSuggestionClick(sug)}>{sug}</span>
-            ))}
-          </div>
-        }
+        <div className="suggestions-absolute-wrapper">
+          {showSuggestions &&
+            <div className="suggestions-container">
+              {suggestions.map((sug, i) =>  (
+                // onMouseDown fires before onBlur
+                <span key={cyrb53Hash(sug) + '_' + i} onMouseDown={() => onSuggestionClick(sug)}>{sug}</span>
+              ))}
+            </div>
+          }
+        </div>
 			</div>
 			<div className="search-button" onClick={() => performSearch(expression)}>
 				<span>{t('search')}</span>

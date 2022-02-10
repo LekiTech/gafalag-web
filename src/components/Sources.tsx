@@ -43,7 +43,7 @@ function Sources() {
 				<div style={isMobileDevice ? styles.contentColumn : styles.contentRow}>
 					{sources.map(source => {
 						if (source.url) {
-							return (<Link key={source.id} href={source.url} >{source.name}</Link>);
+							return (<Link key={source.id} href={source.url} target="_blank" >{source.name}</Link>);
 						}
 						return (<Link key={source.id}>{source.name}</Link>);
 					})}
