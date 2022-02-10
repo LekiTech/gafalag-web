@@ -3,14 +3,26 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 2px;
+  padding: 1px;
   flex: 1;
 	background-color: #FFFFFF;
   border-color: #ADC1C1; 
   border-style: solid;
   border-width: 1px;
   border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
+}
+	/* Set bottom left radius dynamically based on suggestions */
+  /* border-bottom-left-radius: 25px; */
+
+.suggestions-absolute-wrapper > * {
+  position: absolute;
+	background-color: #FFFFFF;
+	border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-color: #ADC1C1; 
+  border-style: solid;
+  border-width: 1px;
+	border-top: unset;
 }
 
 .search-input input {
@@ -60,6 +72,7 @@
   flex-direction: column;
 	overflow: auto;
 	border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
 
 .suggestions-container span {
