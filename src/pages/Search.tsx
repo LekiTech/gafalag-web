@@ -33,7 +33,7 @@ function Search() {
   
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', width: '100vw', minHeight: '100vh'}}>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100vw', minHeight: '100vh'}}>
       <div style={styles(isMobileDevice).searchContainer}>
         <div
           style={styles(isMobileDevice).logoContainer} 

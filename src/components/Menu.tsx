@@ -35,6 +35,7 @@ function Menu() {
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
         variant="standard"
+        disableUnderline
       >
         {
           supportedLanguages.map(lang =>  <MenuItem value={lang}>{t(`languages.${lang}`)}</MenuItem>)
