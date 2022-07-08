@@ -51,7 +51,7 @@ function Search() {
           preFillExpression={expression ?? ''}
           performSearch={performSearch}
           isMobile={isMobileDevice}
-          style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} 
+          // style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} 
         />
       </div>
       <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>

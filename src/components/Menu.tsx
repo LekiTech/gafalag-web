@@ -1,23 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { AppReduxState } from '@/store/app/app.types';
 import { useOutsideAlerter } from './utils';
 import { AppActions } from '@/store/app/app.module';
 import { Language } from '@/store/app/app.enum';
 
-function createLanguageSelectButton(selectedLang: string, lang: Language, selectLang: (lang: string) => void, t: any) {
-  if (selectedLang !== lang) {
-    return (
-    <div
-      key={`lang_select_${lang}`}
-      onClick={() => selectLang(lang)}
-      style={{marginTop: '10px'}}
-      >
-        <span>{t(`languages.${lang}`)}</span>
-    </div>);
-  }
-}
 
 const supportedLanguages = [
   Language.LEZGI,
@@ -32,34 +22,23 @@ function Menu() {
   const [showLanguages, setShowLanguages] = useState(false);
   const languagesButtonRef = useRef(null);
   useOutsideAlerter(languagesButtonRef, () => setShowLanguages(false));
-  const selectLang = (lang: string) => {
+  const handleLangChange = (event: SelectChangeEvent<string>) => {
     setShowLanguages(false);
-    dispatch(AppActions.setLanguageId(lang));
+    dispatch(AppActions.setLanguageId(event.target.value));
   };
   return (
     <div style={styles.container}>
       {/* <div style={styles.pageLink}><a>{t('sources')}</a></div> */}
-      <div 
-        style={{...styles.pageLink}}
-        ref={languagesButtonRef}
-        onClick={() => {
-          if (!showLanguages) {
-            setShowLanguages(true);
-            }
-          }
-        }>
-        <a>
-          {
-            // @ts-ignore
-            t(`languages.${app.languageId}`)
-          }
-        </a>
-        {showLanguages &&
-          <div style={styles.languagesDropdown}>
-            {supportedLanguages.map(lang => createLanguageSelectButton(app.languageId, lang, selectLang, t))}
-          </div>
+      <Select
+        value={app.languageId}
+        onChange={handleLangChange}
+        displayEmpty
+        inputProps={{ 'aria-label': 'Without label' }}
+      >
+        {
+          supportedLanguages.map(lang =>  <MenuItem value={lang}>{t(`languages.${lang}`)}</MenuItem>)
         }
-      </div>
+      </Select>
       {/* <div style={styles.login}><a>{t('login')}</a></div> */}
     </div>
   );

@@ -45,7 +45,7 @@ interface SearchBarProps {
 }
 
 function SearchBar(props: SearchBarProps) {
-  const { preFillExpression, performSearch, style } = props;
+  const { preFillExpression, performSearch, style, isMobile } = props;
   const { t } = useTranslation();
 
   const [expression, setExpression] = useState(preFillExpression ??  '');
@@ -84,8 +84,15 @@ function SearchBar(props: SearchBarProps) {
 
   const showSuggestions = isSearchInputFocussed && suggestions && suggestions.length > 0;
 
+  const responsiveStyle = isMobile ? {
+    width: 'fit-content',
+    marginTop: '30px'
+  } : {
+    width: '60vw',
+    marginTop: '70px'
+  };
   return (
-		<div style={{width: '100%', display: 'flex', ...style}}>
+		<div style={{width: '100%', display: 'flex', boxSizing: 'border-box',  ...style}}>
 			<div className="search-input" style={{borderBottomLeftRadius: showSuggestions ? '0' : '25px'}}>
 				<SearchInput
           key="searchBar"
