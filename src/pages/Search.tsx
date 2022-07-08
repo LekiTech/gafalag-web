@@ -33,26 +33,29 @@ function Search() {
   
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', width: '100vw', minHeight: '100vh'}}>
-      <Menu />
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', width: '100vw', minHeight: '100vh'}}>
       <div style={styles(isMobileDevice).searchContainer}>
         <div
-          style={{ height: 'fit-content', width: 'fit-content', alignSelf: 'center', marginRight: isMobileDevice ? 0 : '30px', cursor: 'pointer' }} 
+          style={styles(isMobileDevice).logoContainer} 
           onClick={() => navigate(RoutesPaths.Home)}
         >
           <img 
             src={images.logo}
             className="App-logo"
             alt="logo"
-            style={{ height: 'auto', width: '248px'}}
+            style={{ height: isMobileDevice ? '30px' : 'auto', width: isMobileDevice ? 'auto' : '248px'}}
           />
         </div>
-        <SearchBar 
-          preFillExpression={expression ?? ''}
-          performSearch={performSearch}
-          isMobile={isMobileDevice}
-          // style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} 
-        />
+        <div style={styles(isMobileDevice).searchBarContainer}>
+          <SearchBar 
+            preFillExpression={expression ?? ''}
+            performSearch={performSearch}
+            isMobile={isMobileDevice}
+          />
+        </div>
+        <div style={styles(isMobileDevice).menuContainer}>
+          <Menu />
+        </div>
       </div>
       <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
         {result.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} />)}
@@ -63,16 +66,41 @@ function Search() {
 
 const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> => ({
   searchContainer: {
+    // position: 'absolute',
+    // top: 0,
     display: 'flex',
-    height: '160px',
+    minHeight: '120px', //'160px',
     width: '100vw',
-    padding: isMobileDevice ? '0 0 30px 0' : '0 0 30px 30px',
-    marginTop: isMobileDevice ? '50px' : 0,
+    paddingBottom: '30px', //isMobileDevice ? '0 0 30px 0' : '0 0 30px 30px',
+    paddingTop: isMobileDevice ? '15px' : 0, //'50px' : 0,
     flexDirection: isMobileDevice ? 'column' : 'row',
-    alignItems: isMobileDevice ? 'center' : 'flex-start',
+    alignItems: isMobileDevice ? 'center' : 'flex-end',
     justifyContent: isMobileDevice ? 'flex-start' : 'stretch',
     borderBottom: '1px solid #DADCE0',
   },
+  logoContainer: {
+    height: 'fit-content',
+    width: 'fit-content',
+    alignSelf: isMobileDevice ? 'flex-start' : 'unset',
+    marginLeft: isMobileDevice ? '15px' : '30px',
+    marginRight: isMobileDevice ? 0 : '30px',
+    cursor: 'pointer' 
+  },
+  searchBarContainer: {
+    flex: 1,
+    // for mobile set width to 100% minus 15px from each side
+    width: isMobileDevice ? 'calc(100% - 30px)' : 'unset',
+    marginTop: isMobileDevice ? '7vw' : 0,
+    maxWidth: '800px',
+    marginLeft: isMobileDevice ? '15px' : 'unset',
+    marginRight: isMobileDevice ? '15px' : '30px',
+  },
+  menuContainer: {
+    position: 'absolute',
+    top: '15px',
+    right: '15px'
+  }
+
 });
 
 export default Search;

@@ -17,7 +17,9 @@ function Home() {
   const performSearch = usePerformSearch();
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-      <Menu />
+      <div style={{ position: 'absolute', top: '15px', right: '15px' }}>
+        <Menu />
+      </div>
       <div style={{display: 'flex', flexDirection: 'column', margin: '100px 0',  alignItems: 'center', justifyContent: 'center', minWidth: isMobileDevice ? '80vw' : '700px'}}>
         <img src={images.logo} className="App-logo" alt="logo" style={{ height: 'auto', width: isMobileDevice ? '40vw' : '372px', minWidth: '248px' }} />
         <SearchBar performSearch={performSearch} isMobile={isMobileDevice} style={{marginTop: isMobileDevice ? '7vw' : '70px'}} />

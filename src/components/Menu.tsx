@@ -34,6 +34,7 @@ function Menu() {
         onChange={handleLangChange}
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
+        variant="standard"
       >
         {
           supportedLanguages.map(lang =>  <MenuItem value={lang}>{t(`languages.${lang}`)}</MenuItem>)
@@ -46,9 +47,9 @@ function Menu() {
 
 const styles: Record<string, React.CSSProperties> = {
   container: {
-    position: 'absolute',
-    top: '15px',
-    right: '15px',
+    // position: 'absolute',
+    // top: '15px',
+    // right: '15px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
