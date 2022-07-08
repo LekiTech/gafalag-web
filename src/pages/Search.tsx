@@ -13,6 +13,7 @@ import Expression from '@/components/Expression';
 import { cyrb53Hash } from '@/utils';
 import RoutesPaths from '@/RoutesPaths';
 import { SearchParams } from '@/store/dictionary/dictionary.enum';
+import { usePerformSearch } from '@/customHooks/usePerformSearch';
 
 
 function Search() {
@@ -21,6 +22,7 @@ function Search() {
   const navigate = useNavigate();
   const [result, setResult] = useState([] as ExpressionDto[]);
   const expression = searchQuery.get(SearchParams.expression);
+  const performSearch = usePerformSearch();
 
   useEffect(() => {
       // initial load
@@ -45,7 +47,12 @@ function Search() {
             style={{ height: 'auto', width: '248px'}}
           />
         </div>
-        <SearchBar expression={expression ?? ''} style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} />
+        <SearchBar 
+          preFillExpression={expression ?? ''}
+          performSearch={performSearch}
+          isMobile={isMobileDevice}
+          style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} 
+        />
       </div>
       <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
         {result.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} />)}

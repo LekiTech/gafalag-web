@@ -1,3 +1,5 @@
+import RoutesPaths from "@/RoutesPaths";
+import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import DictionaryAPI from "./dictionary.api";
@@ -38,6 +40,7 @@ const reducer = (state = initialState, action: DictionaryAction): DictionaryRedu
   }
 };
 
+
 // Actions
 const actions = {
 
@@ -56,6 +59,23 @@ const actions = {
       }
     }
   },
+
+  // performSearch: (expression: string, setExpressionSearchQuery: (expression: string) => void) => {
+  //   const navigate = useNavigate();
+  //   const location = useLocation();
+  //   console.log('performSearch', expression)
+  //   if (expression == undefined || expression.length === 0) {
+  //     return;
+  //   }
+  //   if (location.pathname === RoutesPaths.Search) {
+  //     setExpressionSearchQuery(expression);
+  //   } else {
+  //     navigate({
+  //       pathname: RoutesPaths.Search, 
+  //       search: `?${createSearchParams({expression})}`,
+  //     });
+  //   }
+  // }
 }
 
 export const DictionaryActions = actions;

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import images from '@/store/images';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useSearchParams, createSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';;
 
-import './SearchBar.css';
-import RoutesPaths from '@/RoutesPaths';
-import { SearchParams } from '@/store/dictionary/dictionary.enum';
+import './styles.css';
 import DictionaryAPI from '@/store/dictionary/dictionary.api';
 import { cyrb53Hash } from '@/utils';
 
@@ -28,21 +25,37 @@ const SearchInput = styled.input`
 // Use memo to prevent superfluous API calls 
 const suggestionsMemo: Record<string, string[]> = {};
 
-function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
-  const { t } = useTranslation();
-  const [searchQuery, setSearchQuery] = useSearchParams();
-  const setExpressionSearchQuery = (expression: string) => setSearchQuery(new URLSearchParams({[SearchParams.expression]: expression}));
-  const navigate = useNavigate();
-  const location = useLocation();
+interface SearchBarProps {
+  /**
+   * Search query representing (part of) expression from dictionary which was previously filled in
+   */ 
+  preFillExpression?: string;
+  /**
+   * A function triggering search query to be executed in the backend, and redirects to the page with search results
+   */
+  performSearch: (expression: string) => void;
+  /**
+   * `true` if website is opened on mobile device
+   */
+  isMobile: boolean,
+  /**
+   * Style of SearchBar container
+   */
+  style?: React.CSSProperties
+}
 
-  const [expression, setExpression] = useState(props.expression ??  '');
+function SearchBar(props: SearchBarProps) {
+  const { preFillExpression, performSearch, style } = props;
+  const { t } = useTranslation();
+
+  const [expression, setExpression] = useState(preFillExpression ??  '');
   const [suggestions, setSuggestions] = useState([] as string[]);
   const [isSearchInputFocussed, setIsSearchInputFocussed] = useState(false);
 
   useEffect(() => {
-    setExpression(props.expression ??  '');
+    setExpression(preFillExpression ??  '');
     setSuggestions([]);
-  }, [props.expression]);
+  }, [preFillExpression]);
 
   const onFieldInput = (event: any) => {
 		const fieldElement = event.target;
@@ -59,21 +72,6 @@ function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
     }
 	};
 
-  const performSearch = (expression: string) => {
-    console.log('performSearch', expression)
-    if (expression == undefined || expression.length === 0) {
-      return;
-    }
-    if (location.pathname === RoutesPaths.Search) {
-      setExpressionSearchQuery(expression);
-    } else {
-      navigate({
-        pathname: RoutesPaths.Search, 
-        search: `?${createSearchParams({expression})}`,
-      });
-    }
-  };
-
   const handleEnter = (event: any, expression: string) => {
     if (event.key.toLowerCase() === "enter") {
       performSearch(expression);
@@ -87,7 +85,7 @@ function SearchBar(props: {expression?: string; style?: React.CSSProperties}) {
   const showSuggestions = isSearchInputFocussed && suggestions && suggestions.length > 0;
 
   return (
-		<div style={{width: '100%', display: 'flex', ...props.style}}>
+		<div style={{width: '100%', display: 'flex', ...style}}>
 			<div className="search-input" style={{borderBottomLeftRadius: showSuggestions ? '0' : '25px'}}>
 				<SearchInput
           key="searchBar"

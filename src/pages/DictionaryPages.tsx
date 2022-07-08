@@ -13,6 +13,7 @@ import Expression from '@/components/Expression';
 import { cyrb53Hash } from '@/utils';
 import RoutesPaths from '@/RoutesPaths';
 import { SearchParams } from '@/store/dictionary/dictionary.enum';
+import { usePerformSearch } from '@/customHooks/usePerformSearch';
 
 function getLastPage(data: Paginated<ExpressionDto>): string {
   return data.totalPages + '';
@@ -49,6 +50,7 @@ function DictionaryPages() {
   const [result, setResult] = useState({} as Paginated<ExpressionDto>);
   const fromLang = searchQuery.get(SearchParams.fromLang);
   const page = searchQuery.get(SearchParams.page) ?? '1';
+  const performSearch = usePerformSearch();
 
   const goToPage = (selectedPage: string) => {
     searchQuery.set(SearchParams.page, selectedPage);
@@ -104,7 +106,11 @@ function DictionaryPages() {
             style={{ height: 'auto', width: '248px'}}
           />
         </div>
-        <SearchBar style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} />
+        <SearchBar 
+          performSearch={performSearch}
+          isMobile={isMobileDevice}
+          style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} 
+        />
       </div>
       <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
         {result?.items?.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} />)}
