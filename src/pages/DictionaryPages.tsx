@@ -8,12 +8,13 @@ import SearchBar from '@/components/SearchBar';
 import Menu from '@/components/Menu';
 import { isMobile } from '@/responsiveUtils';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ExpressionDto, Paginated } from '@/store/dictionary/dictionary.type';
+import { DictionaryReduxState, ExpressionDto, Paginated } from '@/store/dictionary/dictionary.type';
 import Expression from '@/components/Expression';
 import { cyrb53Hash } from '@/utils';
 import RoutesPaths from '@/RoutesPaths';
 import { SearchParams } from '@/store/dictionary/dictionary.enum';
 import { usePerformSearch } from '@/customHooks/usePerformSearch';
+import { useSelector } from 'react-redux';
 
 function getLastPage(data: Paginated<ExpressionDto>): string {
   return data.totalPages + '';
@@ -51,6 +52,7 @@ function DictionaryPages() {
   const fromLang = searchQuery.get(SearchParams.fromLang);
   const page = searchQuery.get(SearchParams.page) ?? '1';
   const performSearch = usePerformSearch();
+  const dictionary = useSelector((state: any): DictionaryReduxState => state.dictionary);
 
   const goToPage = (selectedPage: string) => {
     searchQuery.set(SearchParams.page, selectedPage);
@@ -108,6 +110,8 @@ function DictionaryPages() {
         </div>
         <SearchBar 
           performSearch={performSearch}
+          fromLang={dictionary.fromLang}
+          toLang={dictionary.toLang}
           isMobile={isMobileDevice}
           style={{ width: isMobileDevice ? 'fit-content' : '60vw', marginTop: isMobileDevice ? '30px' : '70px'}} 
         />

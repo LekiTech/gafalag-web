@@ -2,22 +2,40 @@ import RoutesPaths from "@/RoutesPaths";
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { Language } from "@/store/app/app.enum";
 import DictionaryAPI from "./dictionary.api";
 import { DictionaryReduxState, Source } from "./dictionary.type";
 
+export const SupportedLanguages = [
+  Language.LEZGI,
+  Language.TABASARAN,
+  Language.RUSSIAN
+]
 
 const initialState: DictionaryReduxState = { 
   sources: {},
+  fromLang: Language.LEZGI,
+  toLang: Language.RUSSIAN,
 };
 
 enum DictionaryActionType {
   SET_SOURCES = 'SET_SOURCES',
+  SET_FROM_LANG = 'SET_FROM_LANG',
+  SET_TO_LANG = 'SET_TO_LANG',
 }
 
 type DictionaryAction = {
-	type: DictionaryActionType;
+	type: DictionaryActionType.SET_SOURCES;
 	sources: Source[];
-}
+} |
+{
+  type: DictionaryActionType.SET_FROM_LANG;
+  fromLang: Language;
+} |
+{
+  type: DictionaryActionType.SET_TO_LANG;
+  toLang: Language;
+};
 
 //Reducers
 const reducer = (state = initialState, action: DictionaryAction): DictionaryReduxState => {
@@ -35,6 +53,12 @@ const reducer = (state = initialState, action: DictionaryAction): DictionaryRedu
 			}
       return { ...state };
 
+    case DictionaryActionType.SET_FROM_LANG:
+      return { ...state, fromLang: action.fromLang };
+    
+    case DictionaryActionType.SET_TO_LANG:
+      return { ...state, toLang: action.toLang };
+
     default:
       return state;
   }
@@ -47,6 +71,16 @@ const actions = {
   setSources: (sources: Source[]): DictionaryAction => ({
     type: DictionaryActionType.SET_SOURCES,
     sources
+  }),
+
+  setFromLang: (fromLang: Language): DictionaryAction => ({
+    type: DictionaryActionType.SET_FROM_LANG,
+    fromLang
+  }),
+
+  setToLang: (toLang: Language): DictionaryAction => ({
+    type: DictionaryActionType.SET_TO_LANG,
+    toLang
   }),
 
   downloadSources: (): ThunkAction<Promise<void>, {}, {}, AnyAction> => {

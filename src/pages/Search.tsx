@@ -8,12 +8,13 @@ import SearchBar from '@/components/SearchBar';
 import Menu from '@/components/Menu';
 import { isMobile } from '@/responsiveUtils';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ExpressionDto } from '@/store/dictionary/dictionary.type';
+import { DictionaryReduxState, ExpressionDto } from '@/store/dictionary/dictionary.type';
 import Expression from '@/components/Expression';
 import { cyrb53Hash } from '@/utils';
 import RoutesPaths from '@/RoutesPaths';
 import { SearchParams } from '@/store/dictionary/dictionary.enum';
 import { usePerformSearch } from '@/customHooks/usePerformSearch';
+import { useSelector } from 'react-redux';
 
 
 function Search() {
@@ -22,12 +23,17 @@ function Search() {
   const navigate = useNavigate();
   const [result, setResult] = useState([] as ExpressionDto[]);
   const expression = searchQuery.get(SearchParams.expression);
+  const fromLang = searchQuery.get(SearchParams.fromLang);
+  const toLang = searchQuery.get(SearchParams.toLang);
   const performSearch = usePerformSearch();
+  const dictionary = useSelector((state: any): DictionaryReduxState => state.dictionary);
 
   useEffect(() => {
       // initial load
-    if (expression != undefined && expression.length > 0) {
-      DictionaryAPI.search(expression).then(data => setResult(data));
+    if (expression != undefined && expression.length > 0 &&
+      fromLang != undefined && fromLang.length > 0 &&
+      toLang != undefined && toLang.length > 0) {
+      DictionaryAPI.search(expression, fromLang, toLang).then(data => setResult(data));
     }
   }, [expression]);
   
@@ -49,6 +55,10 @@ function Search() {
         <div style={styles(isMobileDevice).searchBarContainer}>
           <SearchBar 
             preFillExpression={expression ?? ''}
+            // TODO: replace '' with default app values
+            fromLang={fromLang ?? dictionary.fromLang}
+            // TODO: replace '' with default app values
+            toLang={toLang ?? dictionary.toLang}
             performSearch={performSearch}
             isMobile={isMobileDevice}
           />
@@ -69,9 +79,9 @@ const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> =>
     // position: 'absolute',
     // top: 0,
     display: 'flex',
-    minHeight: '120px', //'160px',
+    // minHeight: '120px', //'160px',
     width: '100vw',
-    paddingBottom: '30px', //isMobileDevice ? '0 0 30px 0' : '0 0 30px 30px',
+    paddingBottom: '5px', //isMobileDevice ? '0 0 30px 0' : '0 0 30px 30px',
     paddingTop: isMobileDevice ? '15px' : 0, //'50px' : 0,
     flexDirection: isMobileDevice ? 'column' : 'row',
     alignItems: isMobileDevice ? 'center' : 'flex-end',

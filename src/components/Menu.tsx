@@ -19,11 +19,7 @@ function Menu() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const app = useSelector((state: any): AppReduxState => state.app);
-  const [showLanguages, setShowLanguages] = useState(false);
-  const languagesButtonRef = useRef(null);
-  useOutsideAlerter(languagesButtonRef, () => setShowLanguages(false));
   const handleLangChange = (event: SelectChangeEvent<string>) => {
-    setShowLanguages(false);
     dispatch(AppActions.setLanguageId(event.target.value));
   };
   return (

@@ -5,7 +5,7 @@ import { ExpressionDto, Paginated, Source } from './dictionary.type';
 class DictionaryAPI extends BaseAPI {
 
   // TODO: add support from and to lang
-  public async search(expression: string): Promise<ExpressionDto[]> {
+  public async search(expression: string, fromLang: string, toLang: string): Promise<ExpressionDto[]> {
     try {
       const response = await this.get("/expression/search", { params: { exp: expression } });
 			return response.data;
@@ -34,7 +34,7 @@ class DictionaryAPI extends BaseAPI {
       throw e;
     }
   }
-  
+
   // TODO: add support from and to lang
   public async getPaginatedData(params: {
     page: number;

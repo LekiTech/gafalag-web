@@ -21,8 +21,15 @@ function Home() {
         <Menu />
       </div>
       <div style={{display: 'flex', flexDirection: 'column', margin: '100px 0',  alignItems: 'center', justifyContent: 'center', minWidth: isMobileDevice ? '80vw' : '700px'}}>
-        <img src={images.logo} className="App-logo" alt="logo" style={{ height: 'auto', width: isMobileDevice ? '40vw' : '372px', minWidth: '248px' }} />
-        <SearchBar performSearch={performSearch} isMobile={isMobileDevice} style={{marginTop: isMobileDevice ? '7vw' : '70px'}} />
+        <img src={images.logo} className="App-logo" alt="logo" style={{ height: 'auto', width: isMobileDevice ? '40vw' : '372px', minWidth: '248px', marginBottom: isMobileDevice ? '7vw' : '70px' }} />
+        <SearchBar 
+          performSearch={performSearch}
+          // TODO: replace with default app values
+          fromLang={''}
+          // TODO: replace with default app values
+          toLang={''}
+          isMobile={isMobileDevice} 
+        />
         <Dictionaries />
         <Sources />
       </div>

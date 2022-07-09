@@ -9,18 +9,24 @@ export function usePerformSearch() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useSearchParams();
-  return (expression: string) => {
-    const setExpressionSearchQuery = (expression: string) => setSearchQuery(new URLSearchParams({[SearchParams.expression]: expression}));
+  return (expression: string, fromLang: string, toLang: string) => {
     console.log('performSearch', expression)
-    if (expression == undefined || expression.length === 0) {
+    if (expression == undefined || expression.length === 0 ||
+      fromLang == undefined || fromLang.length === 0 ||
+      toLang == undefined || toLang.length === 0) {
       return;
     }
+    const searchParams = {
+      [SearchParams.expression]: expression,
+      [SearchParams.fromLang]: fromLang,
+      [SearchParams.toLang]: toLang
+    };
     if (location.pathname === RoutesPaths.Search) {
-      setExpressionSearchQuery(expression);
+      setSearchQuery(new URLSearchParams(searchParams));
     } else {
       navigate({
         pathname: RoutesPaths.Search, 
-        search: `?${createSearchParams({expression})}`,
+        search: `?${createSearchParams(searchParams)}`,
       });
     }
   }
