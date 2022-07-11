@@ -6,11 +6,11 @@ import { Language } from "@/store/app/app.enum";
 import DictionaryAPI from "./dictionary.api";
 import { DictionaryReduxState, Source } from "./dictionary.type";
 
-export const SupportedLanguages = [
-  Language.LEZGI,
-  Language.TABASARAN,
-  Language.RUSSIAN
-]
+export const SupportedLanguages: Record<string, string[]> = {
+  [Language.LEZGI]: [Language.RUSSIAN],
+  [Language.TABASARAN]: [Language.RUSSIAN],
+  [Language.RUSSIAN]: [Language.LEZGI, Language.TABASARAN]
+}
 
 const initialState: DictionaryReduxState = { 
   sources: {},
@@ -54,9 +54,21 @@ const reducer = (state = initialState, action: DictionaryAction): DictionaryRedu
       return { ...state };
 
     case DictionaryActionType.SET_FROM_LANG:
-      return { ...state, fromLang: action.fromLang };
+      const newToLangOptions = SupportedLanguages[action.fromLang];
+      let toLang: Language;
+      if (newToLangOptions.includes(state.toLang)) {
+        // 1. Prio: toLang should remain same if possible
+        toLang = state.toLang;
+      } else if (newToLangOptions.includes(state.fromLang)) {
+        // 2. Prio: toLang should get previous fromLang value if possible
+        toLang = state.fromLang;
+      } else {
+        // 3. if nothong else is abailable toLang should be the 1st value of available options
+        toLang = newToLangOptions[0] as Language;
+      }
+      return { ...state, fromLang: action.fromLang, toLang };
     
-    case DictionaryActionType.SET_TO_LANG:
+      case DictionaryActionType.SET_TO_LANG:
       return { ...state, toLang: action.toLang };
 
     default:

@@ -64,7 +64,8 @@ function SearchBar(props: SearchBarProps) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const dictionary = useSelector((state: any): DictionaryReduxState => state.dictionary);
-
+  
+  const [toLangOptions, setToLangOptions] = useState(SupportedLanguages[dictionary.fromLang] as Language[]);
   const [expression, setExpression] = useState(preFillExpression ??  '');
   const [suggestions, setSuggestions] = useState([] as string[]);
   const [isSearchInputFocussed, setIsSearchInputFocussed] = useState(false);
@@ -74,6 +75,10 @@ function SearchBar(props: SearchBarProps) {
     setSuggestions([]);
   }, [preFillExpression]);
 
+  useEffect(() => {
+    setToLangOptions(SupportedLanguages[dictionary.fromLang] as Language[]);
+  }, [dictionary.fromLang])
+
   const handleFromLangChange = (event: SelectChangeEvent<Language>) => {
     dispatch(DictionaryActions.setFromLang(event.target.value as Language));
   };
@@ -81,7 +86,7 @@ function SearchBar(props: SearchBarProps) {
   const handleToLangChange = (event: SelectChangeEvent<Language>) => {
     dispatch(DictionaryActions.setToLang(event.target.value as Language));
   };
-  
+
   const onFieldInput = (event: any) => {
 		const fieldElement = event.target;
 		setExpression(fieldElement.value);
@@ -148,7 +153,7 @@ function SearchBar(props: SearchBarProps) {
           disableUnderline
         >
           {
-            SupportedLanguages.map(lang =>  <MenuItem value={lang}>{t(`languages.${lang}`)}</MenuItem>)
+            Object.keys(SupportedLanguages).map((lang) =>  <MenuItem key={lang} value={lang}>{t(`languages.${lang as Language}`)}</MenuItem>)
           }
         </Select>
         <div style={{margin: '0 10px'}}>
@@ -164,7 +169,8 @@ function SearchBar(props: SearchBarProps) {
           disableUnderline
         >
           {
-            SupportedLanguages.map(lang =>  <MenuItem value={lang}>{t(`languages.${lang}`)}</MenuItem>)
+            toLangOptions.map((lang) =>  <MenuItem key={lang} value={lang}>{t(`languages.${lang as Language}`)}</MenuItem>)
+            // SupportedLanguages[toLang as Language].map((lang) =>  <MenuItem value={lang}>{t(`languages.${lang as Language}`)}</MenuItem>)
           }
         </Select>
       </div>
