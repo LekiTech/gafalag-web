@@ -1,5 +1,3 @@
-import RoutesPaths from "@/RoutesPaths";
-import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Language } from "@/store/app/app.enum";
@@ -12,10 +10,28 @@ export const SupportedLanguages: Record<string, string[]> = {
   [Language.RUSSIAN]: [Language.LEZGI, Language.TABASARAN]
 }
 
+const fromLanguageId = 'from_language_id';
+const toLanguageId = 'to_language_id';
+
+function getFromLanguageLS() : Language {
+  const storedFromLanguage = window.localStorage.getItem(fromLanguageId);
+  return (storedFromLanguage ?? Language.LEZGI) as Language;
+}
+function setFromLanguageLS(lang: Language) {
+  window.localStorage.setItem(fromLanguageId, lang);
+}
+function getToLanguageLS() : Language {
+  const storedToLanguage = window.localStorage.getItem(toLanguageId);
+  return (storedToLanguage ?? Language.RUSSIAN) as Language;
+}
+function setToLanguageLS(lang: Language) {
+  window.localStorage.setItem(toLanguageId, lang);
+}
+
 const initialState: DictionaryReduxState = { 
   sources: {},
-  fromLang: Language.LEZGI,
-  toLang: Language.RUSSIAN,
+  fromLang: getFromLanguageLS(),
+  toLang: getToLanguageLS(),
 };
 
 enum DictionaryActionType {
@@ -39,6 +55,7 @@ type DictionaryAction = {
 
 //Reducers
 const reducer = (state = initialState, action: DictionaryAction): DictionaryReduxState => {
+  let toLang: Language;
   switch (action.type) {
     case DictionaryActionType.SET_SOURCES:
 			if (action.sources) {
@@ -59,7 +76,6 @@ const reducer = (state = initialState, action: DictionaryAction): DictionaryRedu
       }
       const newToLangOptions = SupportedLanguages[action.fromLang];
       console.log('dictionary.module', newToLangOptions);
-      let toLang: Language;
       if (newToLangOptions.includes(state.toLang)) {
         // 1. Prio: toLang should remain same if possible
         toLang = state.toLang;
@@ -70,14 +86,18 @@ const reducer = (state = initialState, action: DictionaryAction): DictionaryRedu
         // 3. if nothong else is abailable toLang should be the 1st value of available options
         toLang = newToLangOptions[0] as Language;
       }
+      setFromLanguageLS(action.fromLang);
+      setToLanguageLS(toLang);
       return { ...state, fromLang: action.fromLang, toLang };
     
     case DictionaryActionType.SET_TO_LANG:
       const langOptions = SupportedLanguages[state.fromLang];
-      if (langOptions.includes(action.toLang)) {
-        return { ...state, toLang: action.toLang };
+      toLang = action.toLang;
+      if (!langOptions.includes(toLang)) {
+        toLang = langOptions[0] as Language;
       }
-      return { ...state, toLang:  langOptions[0] as Language };
+      setToLanguageLS(toLang);
+      return { ...state, toLang };
 
     default:
       return state;
