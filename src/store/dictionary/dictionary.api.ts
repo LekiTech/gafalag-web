@@ -7,7 +7,13 @@ class DictionaryAPI extends BaseAPI {
   // TODO: add support from and to lang
   public async search(expression: string, fromLang: string, toLang: string): Promise<ExpressionDto[]> {
     try {
-      const response = await this.get("/expression/search", { params: { exp: expression } });
+      const response = await this.get("/expression/search", { 
+        params: { 
+          exp: expression, 
+          // fromLang, 
+          // toLang 
+        } 
+      });
 			return response.data;
     } catch (e: any) {
       this.log(e);
@@ -15,9 +21,15 @@ class DictionaryAPI extends BaseAPI {
     }
   }
 
-  public async searchSuggestions(expression: string): Promise<string[]> {
+  public async searchSuggestions(expression: string, fromLang: string, toLang: string): Promise<string[]> {
     try {
-      const response = await this.get("/expression/search/suggestions", { params: { exp: expression } });
+      const response = await this.get("/expression/search/suggestions", { 
+        params: { 
+          exp: expression, 
+          // fromLang, 
+          // toLang 
+        } 
+      });
 			return response.data;
     } catch (e: any) {
       this.log(e);

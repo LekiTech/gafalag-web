@@ -10,7 +10,7 @@ export function usePerformSearch() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useSearchParams();
   return (expression: string, fromLang: string, toLang: string) => {
-    console.log('performSearch', expression)
+    console.log('performSearch', expression, fromLang, toLang)
     if (expression == undefined || expression.length === 0 ||
       fromLang == undefined || fromLang.length === 0 ||
       toLang == undefined || toLang.length === 0) {

@@ -10,11 +10,14 @@ import Dictionaries from '@/components/Dictionaries';
 import { isMobile } from '@/responsiveUtils';
 import Sources from '@/components/Sources';
 import { usePerformSearch } from '@/customHooks/usePerformSearch';
+import { useSelector } from 'react-redux';
+import { DictionaryReduxState } from '@/store/dictionary/dictionary.type';
 
 
 function Home() {
   const isMobileDevice = isMobile();
   const performSearch = usePerformSearch();
+  const dictionary = useSelector((state: any): DictionaryReduxState => state.dictionary);
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       <div style={{ position: 'absolute', top: '15px', right: '15px' }}>
@@ -25,9 +28,9 @@ function Home() {
         <SearchBar 
           performSearch={performSearch}
           // TODO: replace with default app values
-          fromLang={''}
+          fromLang={dictionary.fromLang}
           // TODO: replace with default app values
-          toLang={''}
+          toLang={dictionary.toLang}
           isMobile={isMobileDevice} 
         />
         <Dictionaries />

@@ -54,7 +54,11 @@ const reducer = (state = initialState, action: DictionaryAction): DictionaryRedu
       return { ...state };
 
     case DictionaryActionType.SET_FROM_LANG:
+      if (!Object.keys(SupportedLanguages).includes(action.fromLang)) {
+        return { ...state }
+      }
       const newToLangOptions = SupportedLanguages[action.fromLang];
+      console.log('dictionary.module', newToLangOptions);
       let toLang: Language;
       if (newToLangOptions.includes(state.toLang)) {
         // 1. Prio: toLang should remain same if possible
@@ -68,8 +72,12 @@ const reducer = (state = initialState, action: DictionaryAction): DictionaryRedu
       }
       return { ...state, fromLang: action.fromLang, toLang };
     
-      case DictionaryActionType.SET_TO_LANG:
-      return { ...state, toLang: action.toLang };
+    case DictionaryActionType.SET_TO_LANG:
+      const langOptions = SupportedLanguages[state.fromLang];
+      if (langOptions.includes(action.toLang)) {
+        return { ...state, toLang: action.toLang };
+      }
+      return { ...state, toLang:  langOptions[0] as Language };
 
     default:
       return state;

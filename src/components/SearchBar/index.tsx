@@ -93,7 +93,7 @@ function SearchBar(props: SearchBarProps) {
     if (suggestionsMemo[fieldElement.value]) {
       setSuggestions(suggestionsMemo[fieldElement.value]);
     } else if (fieldElement.value && fieldElement.value.trim().length > 0) {
-      DictionaryAPI.searchSuggestions(fieldElement.value).then(data => {
+      DictionaryAPI.searchSuggestions(fieldElement.value, fromLang, toLang).then(data => {
         suggestionsMemo[fieldElement.value] = data;
         setSuggestions(data);
       });
