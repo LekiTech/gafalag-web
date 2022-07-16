@@ -10,8 +10,8 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import RoutesPaths from '@/RoutesPaths';
 
 
-function FormattedDefinitionText(props: {definition: string}) {
-	const { definition } = props;
+function FormattedDefinitionText(props: {definition: string, fromLang: string, toLang: string}) {
+	const { definition, fromLang, toLang } = props;
   const navigate = useNavigate();
 	return (
 		<>
@@ -36,7 +36,7 @@ function FormattedDefinitionText(props: {definition: string}) {
 								}}
 								onClick={() => navigate({
 									pathname: RoutesPaths.Search, 
-									search: `?${createSearchParams({expression: textObj.text})}`,
+									search: `?${createSearchParams({expression: textObj.text, fromLang, toLang})}`,
 								})}
 							>
 								{textObj.text}
@@ -88,7 +88,9 @@ function Expression(props: {expression: ExpressionDto}) {
 						expression.definitions.map(def => (
 							<div className="expression_info_block" key={cyrb53Hash(def.text)}>
 								{/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
-								<span className="definition"><FormattedDefinitionText definition={def.text} /></span>
+								<span className="definition">
+                  <FormattedDefinitionText definition={def.text} fromLang={dict.fromLang} toLang={dict.toLang} />
+                </span>
 								{
 									dict.sources != undefined && dict.sources[def.sourceId] != undefined &&
 									<span className="info_row">{t('source')}: <span>{dict.sources[def.sourceId].name}</span></span>

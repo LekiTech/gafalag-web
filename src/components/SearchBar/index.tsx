@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Autocomplete from '@mui/material/Autocomplete';
+import Popper from '@mui/material/Popper';
 import styled from "styled-components";
 import images from '@/store/images';
 import { useTranslation } from 'react-i18next';;
@@ -87,14 +89,17 @@ function SearchBar(props: SearchBarProps) {
     dispatch(DictionaryActions.setToLang(event.target.value as Language));
   };
 
-  const onFieldInput = (event: any) => {
-		const fieldElement = event.target;
-		setExpression(fieldElement.value);
-    if (suggestionsMemo[fieldElement.value]) {
-      setSuggestions(suggestionsMemo[fieldElement.value]);
-    } else if (fieldElement.value && fieldElement.value.trim().length > 0) {
-      DictionaryAPI.searchSuggestions(fieldElement.value, fromLang, toLang).then(data => {
-        suggestionsMemo[fieldElement.value] = data;
+  const onFieldInput = (event: any, value?: string | null) => {
+    if (value === null || value === undefined) {
+      return;
+    }
+		// const fieldElement = event.target;
+		setExpression(value);
+    if (suggestionsMemo[value]) {
+      setSuggestions(suggestionsMemo[value]);
+    } else if (value && value.trim().length > 0) {
+      DictionaryAPI.searchSuggestions(value, fromLang, toLang).then(data => {
+        suggestionsMemo[value] = data;
         setSuggestions(data);
       });
     } else {
@@ -103,6 +108,7 @@ function SearchBar(props: SearchBarProps) {
 	};
 
   const handleEnter = (event: any, expression: string) => {
+    console.log(event);
     if (event.key.toLowerCase() === "enter") {
       performSearch(expression, fromLang, toLang);
     }
@@ -118,7 +124,63 @@ function SearchBar(props: SearchBarProps) {
 		<div style={{width: '100%', display: 'flex', boxSizing: 'border-box', flexDirection: 'column'}}>
       <div style={{width: '100%', display: 'flex', boxSizing: 'border-box'}}>
         <div className="search-input" style={{borderBottomLeftRadius: showSuggestions ? '0' : '25px'}}>
-          <SearchInput
+          <Autocomplete
+            sx={{
+              display: 'inline-block',
+              '& input': {
+                marginLeft: '20px',
+                width: 'calc(100% - 20px)',
+                bgcolor: 'background.paper',
+                color: (theme) =>
+                  theme.palette.getContrastText(theme.palette.background.paper),
+              },
+            }}
+            PopperComponent={(props) => {
+              console.log('Popper width', props?.style?.width, `calc(${props?.style?.width} - 20px)`)
+              return (
+              <Popper 
+                {...props} 
+                placement="bottom-start" 
+                style={{ width: `calc(${props?.style?.width}px - 21px)`}} 
+                modifiers={[
+                  {
+                    name: 'offset',
+                    enabled: true,
+                    options: {
+                      offset: [20, 5],
+                    },
+                  },
+                ]}
+              />)}}
+            value={expression}
+            onChange={(event, newValue) => { 
+              if(newValue) {
+                onSuggestionClick(newValue)
+              }
+            }}
+            inputValue={expression}
+            onInputChange={onFieldInput}
+            id="custom-input-demo"
+            options={suggestions}
+            renderInput={(params) => (
+              <div ref={params.InputProps.ref}>
+                <SearchInput {...params.inputProps} type="search" onKeyDown={(event) => handleEnter(event, expression)} />
+              </div>
+            )}
+            // renderOption={(params, sug) => (
+            //   <li {...params} 
+            //     key={cyrb53Hash(sug) + '_' + Math.random()}
+            //     onMouseDown={() => onSuggestionClick(sug)}
+            //     // onKeyDown={(event) => handleEnter(event, sug)}
+            //   >
+            //     <span>{sug}</span>
+            //   </li>
+            //   // <div ref={params.InputProps.ref}>
+            //   //   <input type="text" {...params.inputProps} />
+            //   // </div>
+            // )}
+          />
+          {/* <SearchInput
             key="searchBar"
             type="search"
             value={expression}
@@ -136,7 +198,7 @@ function SearchBar(props: SearchBarProps) {
                 ))}
               </div>
             }
-          </div>
+          </div> */}
         </div>
         <div className="search-button" onClick={() => performSearch(expression, fromLang, toLang)}>
           <span>{t('search')}</span>

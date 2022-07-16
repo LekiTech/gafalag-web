@@ -34,7 +34,7 @@ function Menu() {
         disableUnderline
       >
         {
-          supportedLanguages.map(lang =>  <MenuItem value={lang}>{t(`languages.${lang}`)}</MenuItem>)
+          supportedLanguages.map(lang =>  <MenuItem key={lang} value={lang}>{t(`languages.${lang}`)}</MenuItem>)
         }
       </Select>
       {/* <div style={styles.login}><a>{t('login')}</a></div> */}

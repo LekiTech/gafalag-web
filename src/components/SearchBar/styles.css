@@ -29,9 +29,9 @@
   border-style: unset;
   /* height: 100%; */
 	height: 40px;
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
-  padding-left: 20px;
+  /* border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px; */
+  /* padding-left: 20px; */
   width: 100%;
   font-family: 'Cairo', sans-serif;
   font-style: normal;
