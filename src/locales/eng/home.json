@@ -8,6 +8,7 @@
 	"language": "Language",
 	"dialect": "Dialect",
 	"source": "Source",
+  "foundInDefinitions": "Found in definitions",
 	"languages": {
 		"eng": "English",
 		"rus": "Russian",

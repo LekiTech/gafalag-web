@@ -1,5 +1,9 @@
+import { Language } from "@/store/app/app.enum";
+
 export type DictionaryReduxState = {
 	sources?: Record<string, Source>;
+  fromLang: Language,
+  toLang: Language,
 }
 
 export type Source = {
