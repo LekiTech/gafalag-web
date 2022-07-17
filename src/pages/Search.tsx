@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import images from '@/store/images';
 import '@/i18n';
+import { useTranslation } from 'react-i18next';
 
 import DictionaryAPI from '@/store/dictionary/dictionary.api';
 import { DictionaryActions } from '@/store/dictionary/dictionary.module';
@@ -21,6 +22,7 @@ import { Language } from '@/store/app/app.enum';
 
 function Search() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const isMobileDevice = isMobile();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const navigate = useNavigate();
@@ -128,7 +130,7 @@ function Search() {
         resultFromDefinitions.length > 0 &&
         <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
           <div style={styles(isMobileDevice).titleBlock}>
-            <span> Found in definitions: </span>
+            <span> {t('foundInDefinitions')}: </span>
           </div>
           {resultFromDefinitions.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} highlightInDefinition={expression} />)}
         </div>
