@@ -25,14 +25,16 @@ function Home() {
       </div>
       <div style={{display: 'flex', flexDirection: 'column', margin: '100px 0',  alignItems: 'center', justifyContent: 'center', minWidth: isMobileDevice ? '80vw' : '700px'}}>
         <img src={images.logo} className="App-logo" alt="logo" style={{ height: 'auto', width: isMobileDevice ? '40vw' : '372px', minWidth: '248px', marginBottom: isMobileDevice ? '7vw' : '70px' }} />
-        <SearchBar 
-          performSearch={performSearch}
-          // TODO: replace with default app values
-          fromLang={dictionary.fromLang}
-          // TODO: replace with default app values
-          toLang={dictionary.toLang}
-          isMobile={isMobileDevice} 
-        />
+        <div style={ isMobileDevice ? {width: 'calc(100% - 30px)', margin: '15px 0'}: { width: '100%' }}>
+          <SearchBar 
+            performSearch={performSearch}
+            // TODO: replace with default app values
+            fromLang={dictionary.fromLang}
+            // TODO: replace with default app values
+            toLang={dictionary.toLang}
+            isMobile={isMobileDevice} 
+          />
+        </div>
         <Dictionaries />
         <Sources />
       </div>

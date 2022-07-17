@@ -93,7 +93,6 @@ function SearchBar(props: SearchBarProps) {
     if (value === null || value === undefined) {
       return;
     }
-		// const fieldElement = event.target;
 		setExpression(value);
     if (suggestionsMemo[value]) {
       setSuggestions(suggestionsMemo[value]);
@@ -135,6 +134,7 @@ function SearchBar(props: SearchBarProps) {
                   theme.palette.getContrastText(theme.palette.background.paper),
               },
             }}
+            noOptionsText={'No suggestions, we will search in translations for you!'}
             PopperComponent={(props) => {
               console.log('Popper width', props?.style?.width, `calc(${props?.style?.width} - 20px)`)
               return (
@@ -152,6 +152,7 @@ function SearchBar(props: SearchBarProps) {
                   },
                 ]}
               />)}}
+            onOpen={(event) => onFieldInput(event, expression)}
             value={expression}
             onChange={(event, newValue) => { 
               if(newValue) {
@@ -167,45 +168,14 @@ function SearchBar(props: SearchBarProps) {
                 <SearchInput {...params.inputProps} type="search" onKeyDown={(event) => handleEnter(event, expression)} />
               </div>
             )}
-            // renderOption={(params, sug) => (
-            //   <li {...params} 
-            //     key={cyrb53Hash(sug) + '_' + Math.random()}
-            //     onMouseDown={() => onSuggestionClick(sug)}
-            //     // onKeyDown={(event) => handleEnter(event, sug)}
-            //   >
-            //     <span>{sug}</span>
-            //   </li>
-            //   // <div ref={params.InputProps.ref}>
-            //   //   <input type="text" {...params.inputProps} />
-            //   // </div>
-            // )}
           />
-          {/* <SearchInput
-            key="searchBar"
-            type="search"
-            value={expression}
-            onInput={onFieldInput}
-            onKeyDown={(event) => handleEnter(event, expression)}
-            onFocus={() => setIsSearchInputFocussed(true)}
-            onBlur={() => setIsSearchInputFocussed(false)}
-          />
-          <div className="suggestions-absolute-wrapper">
-            {showSuggestions &&
-              <div className="suggestions-container">
-                {suggestions.map((sug, i) =>  (
-                  // onMouseDown fires before onBlur
-                  <span key={cyrb53Hash(sug) + '_' + i} onMouseDown={() => onSuggestionClick(sug)}>{sug}</span>
-                ))}
-              </div>
-            }
-          </div> */}
+          
         </div>
         <div className="search-button" onClick={() => performSearch(expression, fromLang, toLang)}>
           <span>{t('search')}</span>
         </div>
       </div>
       <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '30px', marginTop: '5px' }}>
-        {/* FIXME: From language select */}
         <Select
           value={dictionary.fromLang}
           onChange={handleFromLangChange}
@@ -232,7 +202,6 @@ function SearchBar(props: SearchBarProps) {
         >
           {
             toLangOptions.map((lang) =>  <MenuItem key={lang} value={lang}>{t(`languages.${lang as Language}`)}</MenuItem>)
-            // SupportedLanguages[toLang as Language].map((lang) =>  <MenuItem value={lang}>{t(`languages.${lang as Language}`)}</MenuItem>)
           }
         </Select>
       </div>

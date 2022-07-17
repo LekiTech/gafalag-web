@@ -91,7 +91,7 @@ function Search() {
             src={images.logo}
             className="App-logo"
             alt="logo"
-            style={{ height: isMobileDevice ? '30px' : 'auto', width: isMobileDevice ? 'auto' : '248px'}}
+            style={{ height: isMobileDevice ? '30px' : 'auto', width: isMobileDevice ? 'auto' : '154px'}} //'248px'
           />
         </div>
         <div style={styles(isMobileDevice).searchBarContainer}>
@@ -120,13 +120,14 @@ const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> =>
     // top: 0,
     display: 'flex',
     // minHeight: '120px', //'160px',
-    width: '100vw',
+    width: 'calc(100vw - 30px)',//'100vw',
     paddingBottom: '5px', //isMobileDevice ? '0 0 30px 0' : '0 0 30px 30px',
-    paddingTop: isMobileDevice ? '15px' : 0, //'50px' : 0,
+    // paddingTop: isMobileDevice ? '15px' : 0, //'50px' : 0,
     flexDirection: isMobileDevice ? 'column' : 'row',
-    alignItems: isMobileDevice ? 'center' : 'flex-end',
+    alignItems: isMobileDevice ? 'center' : 'unset',//'flex-end',
     justifyContent: isMobileDevice ? 'flex-start' : 'stretch',
     borderBottom: '1px solid #DADCE0',
+    margin: '15px',
   },
   logoContainer: {
     height: 'fit-content',
@@ -134,21 +135,27 @@ const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> =>
     alignSelf: isMobileDevice ? 'flex-start' : 'unset',
     marginLeft: isMobileDevice ? '15px' : '30px',
     marginRight: isMobileDevice ? 0 : '30px',
+    marginTop: isMobileDevice ? '0px' : '25px',
     cursor: 'pointer' 
   },
   searchBarContainer: {
-    flex: 1,
+    flex: 10,
     // for mobile set width to 100% minus 15px from each side
     width: isMobileDevice ? 'calc(100% - 30px)' : 'unset',
-    marginTop: isMobileDevice ? '7vw' : 0,
+    marginTop: isMobileDevice ? '20px' : '40px', //7vw
     maxWidth: '800px',
     marginLeft: isMobileDevice ? '15px' : 'unset',
-    marginRight: isMobileDevice ? '15px' : '30px',
+    marginRight: isMobileDevice ? '15px' : '0px',
   },
-  menuContainer: {
+  menuContainer: isMobileDevice ? {
     position: 'absolute',
     top: '15px',
     right: '15px'
+  } : {
+    display: 'flex',
+    flex: '1 0 auto',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
   }
 
 });
