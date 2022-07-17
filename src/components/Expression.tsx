@@ -10,8 +10,22 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import RoutesPaths from '@/RoutesPaths';
 
 
-function FormattedDefinitionText(props: {definition: string, fromLang: string, toLang: string}) {
-	const { definition, fromLang, toLang } = props;
+function highLightHtmlText(text: string, stringToHighlight?: string | null) : string | JSX.Element {
+  if (stringToHighlight === undefined || stringToHighlight === null) {
+    return text;
+  }
+  return (
+    <>
+      {text.replaceAll(stringToHighlight, `,${stringToHighlight},`)
+        .split(',')
+        .map(str => str === stringToHighlight ? (<mark>{str}</mark>) : str)}
+    </>
+  );
+}
+
+function FormattedDefinitionText(props: {definition: string, fromLang: string, toLang: string, highlight?: string | null}) {
+	const { definition, fromLang, toLang, highlight } = props;
+  console.log('Highlight:', highlight);
   const navigate = useNavigate();
 	return (
 		<>
@@ -20,7 +34,7 @@ function FormattedDefinitionText(props: {definition: string, fromLang: string, t
 					case DefinitionTextType.TAG:
 						return (
 							<span key={cyrb53Hash(textObj.text) + '_' + i} style={{fontWeight: 'bold'}}>
-									{textObj.text}
+									{highLightHtmlText(textObj.text, highlight)}
 							</span>);
 					case DefinitionTextType.EXAMPLE:
 						return (
@@ -39,12 +53,12 @@ function FormattedDefinitionText(props: {definition: string, fromLang: string, t
 									search: `?${createSearchParams({expression: textObj.text, fromLang, toLang})}`,
 								})}
 							>
-								{textObj.text}
+								{highLightHtmlText(textObj.text, highlight)}
 							</span>);
 					default:
 						return (
 							<span key={cyrb53Hash(textObj.text) + '_' + i}>
-								{textObj.text}
+								{highLightHtmlText(textObj.text, highlight)}
 							</span>);
 				}
 			})}
@@ -58,8 +72,8 @@ function getDynamicLanguageTranslation(t: any, languageId: string) {
 	return t(`languages.${languageId}`);
 }
 
-function Expression(props: {expression: ExpressionDto}) {
-	const { expression } = props;
+function Expression(props: {expression: ExpressionDto, highlightInDefinition?: string | null}) {
+	const { expression, highlightInDefinition } = props;
 	const dict = useSelector((state: any): DictionaryReduxState => state.dictionary);
   const { t } = useTranslation();
 
@@ -89,7 +103,7 @@ function Expression(props: {expression: ExpressionDto}) {
 							<div className="expression_info_block" key={cyrb53Hash(def.text)}>
 								{/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
 								<span className="definition">
-                  <FormattedDefinitionText definition={def.text} fromLang={dict.fromLang} toLang={dict.toLang} />
+                  <FormattedDefinitionText definition={def.text} fromLang={dict.fromLang} toLang={dict.toLang} highlight={highlightInDefinition} />
                 </span>
 								{
 									dict.sources != undefined && dict.sources[def.sourceId] != undefined &&

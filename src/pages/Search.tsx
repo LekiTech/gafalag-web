@@ -24,7 +24,8 @@ function Search() {
   const isMobileDevice = isMobile();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const navigate = useNavigate();
-  const [result, setResult] = useState([] as ExpressionDto[]);
+  const [resultDirectSearch, setResultDirectSearch] = useState([] as ExpressionDto[]);
+  const [resultFromDefinitions, setResultFromDefinitions] = useState([] as ExpressionDto[]);
   const expression = searchQuery.get(SearchParams.expression);
   const fromLang = searchQuery.get(SearchParams.fromLang);
   const toLang = searchQuery.get(SearchParams.toLang);
@@ -37,12 +38,12 @@ function Search() {
   // Ex2. page just loaded for combination "rus-lez" and language "lez" does exist so nothing is changed but default "toLang" in state is "rus"
   //      then at this moment there is "toLang=lez" in URL and "toLang=rus" in state, so state should be updated
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-  const [didSearch, setDidSearch] = useState(false);
+  const [lastSearch, setLastSearch] = useState({expression: '', fromLang: '', toLang: ''});
 
   useEffect(() => {
     // initial load
     setIsFirstLoad(false);
-    
+    console.log('first search load')
     if (expression != undefined && expression.length > 0) {
         // If languages are not matching on the FIRST load, change state
         if (fromLang !== dictionary.fromLang) {
@@ -52,8 +53,9 @@ function Search() {
           dispatch(DictionaryActions.setToLang(toLang as Language));
         }
         if (fromLang != undefined && fromLang.length > 0 && toLang != undefined && toLang.length > 0) {
-          DictionaryAPI.search(expression, fromLang, toLang).then(data => setResult(data));
-          setDidSearch(true);
+          DictionaryAPI.search(expression, fromLang, toLang).then(data => setResultDirectSearch(data));
+          DictionaryAPI.searchInDefinitions(expression, fromLang, toLang).then(data => setResultFromDefinitions(data));
+          setLastSearch({expression, fromLang, toLang});
         }
     }
   }, [expression]);
@@ -61,6 +63,7 @@ function Search() {
   useEffect(() => {
     // If languages are not matching AFTER the first load, change url
     if (!isFirstLoad) {
+      console.log('2nd.. search load', lastSearch)
       if (expression != undefined && fromLang !== dictionary.fromLang || toLang !== dictionary.toLang) {
         const searchParams = {
           [SearchParams.expression]: expression as string,
@@ -68,12 +71,20 @@ function Search() {
           [SearchParams.toLang]: dictionary.toLang
         };
         setSearchQuery(new URLSearchParams(searchParams));
-        if (!didSearch) {
+        if (lastSearch.expression !== searchParams.expression || 
+            lastSearch.fromLang !== searchParams.fromLang ||
+            lastSearch.toLang !== searchParams.toLang) {
           DictionaryAPI.search(
             searchParams[SearchParams.expression], 
             searchParams[SearchParams.fromLang], 
             searchParams[SearchParams.toLang]
-          ).then(data => setResult(data));
+          ).then(data => setResultDirectSearch(data));
+          DictionaryAPI.searchInDefinitions(
+            searchParams[SearchParams.expression], 
+            searchParams[SearchParams.fromLang], 
+            searchParams[SearchParams.toLang]
+          ).then(data => setResultFromDefinitions(data));
+          setLastSearch(searchParams);
         }
       }
     }
@@ -107,9 +118,28 @@ function Search() {
           <Menu />
         </div>
       </div>
-      <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
-        {result.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} />)}
-      </div>
+      {
+        resultDirectSearch.length > 0 &&
+        <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
+          {resultDirectSearch.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} />)}
+        </div>
+      }
+      {
+        resultFromDefinitions.length > 0 &&
+        <div style={{paddingLeft: '5vw', width: '80vw', margin: '50px 0'}}>
+          <div style={styles(isMobileDevice).titleBlock}>
+            <span> Found in definitions: </span>
+          </div>
+          {resultFromDefinitions.map((exp, i) => <Expression expression={exp} key={cyrb53Hash(exp.spelling + '_' + i)} highlightInDefinition={expression} />)}
+        </div>
+      }
+      {
+        resultDirectSearch.length === 0 && resultFromDefinitions.length === 0 &&
+        <img src={images.emptyBox} 
+          alt="nothing found" 
+          style={{ marginTop: '100px', height: 'auto', width: '250px', alignSelf: 'center', justifySelf: 'center' }} 
+        />
+      }
     </div>
   );
 }
@@ -156,8 +186,27 @@ const styles = (isMobileDevice: boolean): Record<string, React.CSSProperties> =>
     flex: '1 0 auto',
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-  }
+  },
+  titleBlock: {
+    // display: 'flex',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // flexDirection: 'row',
 
+    // padding: '20px 0',
+    // borderBottomColor: '#0D4949',
+		// borderBottomStyle: 'solid',
+		// borderBottomWidth: '3px',
+    
+    marginBottom: '20px',
+
+    fontFamily: 'Cairo, sans-serif',
+    fontStyle: 'normal',
+    // fontWeight: 'bold',
+    fontSize: '16px',
+    lineHeight: '30px',
+    color: '#343643',
+  },
 });
 
 export default Search;

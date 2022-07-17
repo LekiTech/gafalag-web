@@ -4,14 +4,29 @@ import { ExpressionDto, Paginated, Source } from './dictionary.type';
 
 class DictionaryAPI extends BaseAPI {
 
-  // TODO: add support from and to lang
   public async search(expression: string, fromLang: string, toLang: string): Promise<ExpressionDto[]> {
     try {
       const response = await this.get("/expression/search", { 
         params: { 
           exp: expression, 
-          // fromLang, 
-          // toLang 
+          fromLang, 
+          toLang 
+        } 
+      });
+			return response.data;
+    } catch (e: any) {
+      this.log(e);
+      throw e;
+    }
+  }
+
+  public async searchInDefinitions(text: string, fromLang: string, toLang: string): Promise<ExpressionDto[]> {
+    try {
+      const response = await this.get("/expression/search/definition", { 
+        params: { 
+          text,
+          fromLang, 
+          toLang 
         } 
       });
 			return response.data;
@@ -26,8 +41,8 @@ class DictionaryAPI extends BaseAPI {
       const response = await this.get("/expression/search/suggestions", { 
         params: { 
           exp: expression, 
-          // fromLang, 
-          // toLang 
+          fromLang, 
+          toLang 
         } 
       });
 			return response.data;

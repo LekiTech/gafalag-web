@@ -35,7 +35,8 @@ function Home() {
             isMobile={isMobileDevice} 
           />
         </div>
-        <Dictionaries />
+        {/* <Dictionaries /> */}
+        <div style={{height: '150px'}} />
         <Sources />
       </div>
     </div>

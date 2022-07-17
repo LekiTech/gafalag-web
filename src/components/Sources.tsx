@@ -41,7 +41,7 @@ function Sources() {
 				<span>{t('sources')}</span>
 			</div>
 			<div style={styles.contentBlock}>
-				<div style={isMobileDevice ? styles.contentColumn : styles.contentRow}>
+				<div style={{...styles.contentColumn, alignItems: 'flex-start'}}>
 					{sources.map(source => {
 						if (source.url) {
 							return (<Link key={source.id} href={source.url} target="_blank" >{source.name}</Link>);

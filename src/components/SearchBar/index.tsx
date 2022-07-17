@@ -134,7 +134,7 @@ function SearchBar(props: SearchBarProps) {
                   theme.palette.getContrastText(theme.palette.background.paper),
               },
             }}
-            noOptionsText={'No suggestions, we will search in translations for you!'}
+            noOptionsText={'No suggestions found!'}
             PopperComponent={(props) => {
               console.log('Popper width', props?.style?.width, `calc(${props?.style?.width} - 20px)`)
               return (
