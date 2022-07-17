@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@/i18n';
 import './Expression.css';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { DictionaryReduxState, ExpressionDto } from '@/store/dictionary/dictionary.type';
 import { DefinitionTextType, definitionToFormatJson } from '@/store/dictionary/utils';
 import { cyrb53Hash } from '@/utils';
@@ -76,12 +78,19 @@ function Expression(props: {expression: ExpressionDto, highlightInDefinition?: s
 	const { expression, highlightInDefinition } = props;
 	const dict = useSelector((state: any): DictionaryReduxState => state.dictionary);
   const { t } = useTranslation();
+  const [expandDefinitions, setExpandDefinitions] = useState(true);
 
   // const isMobileDevice = isMobile();
   return (
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', marginBottom: '20px', paddingBottom: '10px', borderBottom: '1px solid #DADCE0'}}>
       <div>
 				{/* media buttons */}
+        <div 
+          style={{display: 'flex',  alignItems: 'center', justifyContent: 'flex-start', width: '30px', height: '30px', cursor: 'pointer'}}
+          onClick={() => setExpandDefinitions(!expandDefinitions)}
+        >
+          {expandDefinitions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+        </div>
 			</div>
 			<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', paddingLeft: '20px' }}>
 				<span className="expression_spelling">
@@ -98,7 +107,7 @@ function Expression(props: {expression: ExpressionDto, highlightInDefinition?: s
 					<span className="info_row">{t('dialect')}: <span>-</span></span>
 				</div> */}
 				<div style={{marginLeft: '0px'}}>
-					{
+					{ expandDefinitions &&
 						expression.definitions.map(def => (
 							<div className="expression_info_block" key={cyrb53Hash(def.text)}>
 								{/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
