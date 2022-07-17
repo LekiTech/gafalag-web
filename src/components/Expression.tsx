@@ -3,6 +3,8 @@ import '@/i18n';
 import './Expression.css';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import Dialog from '@mui/material/Dialog';
 import { DictionaryReduxState, ExpressionDto } from '@/store/dictionary/dictionary.type';
 import { DefinitionTextType, definitionToFormatJson } from '@/store/dictionary/utils';
 import { cyrb53Hash } from '@/utils';
@@ -79,18 +81,41 @@ function Expression(props: {expression: ExpressionDto, highlightInDefinition?: s
 	const dict = useSelector((state: any): DictionaryReduxState => state.dictionary);
   const { t } = useTranslation();
   const [expandDefinitions, setExpandDefinitions] = useState(true);
+  const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false);
 
   // const isMobileDevice = isMobile();
   return (
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', marginBottom: '20px', paddingBottom: '10px', borderBottom: '1px solid #DADCE0'}}>
+      <Dialog fullWidth open={openFeedbackDialog} onClose={() => setOpenFeedbackDialog(!openFeedbackDialog)}>
+        <iframe 
+          src={`https://docs.google.com/forms/d/e/1FAIpQLSdNKd3dZXvZj9Qe8YexH9lY67Hljot4Q2iP_3XuIf_UjvN1og/viewform?usp=pp_url&entry.348508544=${expression.id}&embedded=true`}
+          width="auto"
+          height="1531"
+          frameBorder="0"
+          marginHeight={0}
+          marginWidth={0}
+        >
+          Loading…
+        </iframe>
+      </Dialog>
       <div>
 				{/* media buttons */}
         <div 
-          style={{display: 'flex',  alignItems: 'center', justifyContent: 'flex-start', width: '30px', height: '30px', cursor: 'pointer'}}
+          style={styles.sideButton}
           onClick={() => setExpandDefinitions(!expandDefinitions)}
         >
           {expandDefinitions ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
         </div>
+        { expandDefinitions &&
+          <>
+            <div 
+              style={{...styles.sideButton, transform: 'scale(-1, 1)' }}
+              onClick={() => setOpenFeedbackDialog(true)}
+            >
+              <FeedbackIcon />
+            </div>
+          </>
+        }
 			</div>
 			<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', paddingLeft: '20px' }}>
 				<span className="expression_spelling">
@@ -129,3 +154,16 @@ function Expression(props: {expression: ExpressionDto, highlightInDefinition?: s
 }
 
 export default Expression;
+
+
+const styles: Record<string, React.CSSProperties> = ({
+  sideButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '30px',
+    height: '30px',
+    cursor: 'pointer',
+    color: '#70757a',
+  }
+})
