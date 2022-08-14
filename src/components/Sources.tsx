@@ -33,14 +33,15 @@ function Sources() {
 	const sources = dict.sources ? Object.values(dict.sources) : [];
 
 	const isMobileDevice = isMobile();
-
+  
+  const widthStyle = isMobileDevice ? {width: 'calc(100% - 30px)', margin: '15px 0'} : {width: '100%'};
   return (
     <div style={styles.container}>
-      <div style={styles.titleBlock}>
+      <div style={{...styles.titleBlock, ...widthStyle}}>
 				<span>{t('sources')}</span>
 			</div>
 			<div style={styles.contentBlock}>
-				<div style={isMobileDevice ? styles.contentColumn : styles.contentRow}>
+				<div style={{...styles.contentColumn, alignItems: 'flex-start'}}>
 					{sources.map(source => {
 						if (source.url) {
 							return (<Link key={source.id} href={source.url} target="_blank" >{source.name}</Link>);
@@ -66,7 +67,6 @@ const styles: Record<string, React.CSSProperties> = {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-		width: '100%',
 
     padding: '20px 0',
     borderBottomColor: '#0D4949',

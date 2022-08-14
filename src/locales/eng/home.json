@@ -8,6 +8,9 @@
 	"language": "Language",
 	"dialect": "Dialect",
 	"source": "Source",
+  "foundInDefinitions": "Found in definitions",
+  "noSuggestionsFound": "No suggestions found!",
+  "enterSearchWord": "Enter word to search",
 	"languages": {
 		"eng": "English",
 		"rus": "Russian",
