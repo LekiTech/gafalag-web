@@ -9,6 +9,8 @@
 	"dialect": "Нугъат",
 	"source": "Источник",
   "foundInDefinitions": "Гаф гуьгъуьнал алай метлебра гьатнава",
+  "noSuggestionsFound": "Подсказки не найдены!",
+  "enterSearchWord": "Введите слово для поиска",
 	"languages": {
 		"eng": "Инглис",
 		"rus": "Урус",

@@ -18,11 +18,13 @@ function highLightHtmlText(text: string, stringToHighlight?: string | null) : st
   if (stringToHighlight === undefined || stringToHighlight === null) {
     return text;
   }
+  // use regex for case insensitive replace and highlight
+  const regex = new RegExp(`(${stringToHighlight})`, 'ig')
   return (
     <>
-      {text.replaceAll(stringToHighlight, `,${stringToHighlight},`)
-        .split(',')
-        .map(str => str === stringToHighlight ? (<mark>{str}</mark>) : str)}
+      {text.replaceAll(regex, `__mark__$1__mark__`)
+        .split('__mark__')
+        .map(str => regex.test(str) ? (<mark key={`highlight_${str}_${Math.random()}`}>{str}</mark>) : str)}
     </>
   );
 }
@@ -34,16 +36,17 @@ function FormattedDefinitionText(props: {definition: string, fromLang: string, t
 	return (
 		<>
 			{definitionToFormatJson(definition).map((textObj, i) => {
+        const key = cyrb53Hash(textObj.text) + '_' + i + '_' + Math.random();
 				switch (textObj.type) {
 					case DefinitionTextType.TAG:
 						return (
-							<span key={cyrb53Hash(textObj.text) + '_' + i} style={{fontWeight: 'bold'}}>
+							<span key={key} style={{fontWeight: 'bold'}}>
 									{highLightHtmlText(textObj.text, highlight)}
 							</span>);
 					case DefinitionTextType.EXAMPLE:
 						return (
 							<span 
-								key={cyrb53Hash(textObj.text) + '_' + i}
+								key={key}
 								style={{
 									fontStyle: 'italic',
 									color: '#0D4949',
@@ -61,7 +64,7 @@ function FormattedDefinitionText(props: {definition: string, fromLang: string, t
 							</span>);
 					default:
 						return (
-							<span key={cyrb53Hash(textObj.text) + '_' + i}>
+							<span key={key}>
 								{highLightHtmlText(textObj.text, highlight)}
 							</span>);
 				}
