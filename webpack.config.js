@@ -60,6 +60,13 @@ module.exports = (webpackEnv, options) => {
             "sass-loader",
           ],
         },
+        { 
+          test: /\.xml/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'sitemap.xml',
+          }
+        },
       ],
     },
     plugins: [
