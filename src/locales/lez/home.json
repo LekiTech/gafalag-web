@@ -1,9 +1,10 @@
 {
 	"sources": "Источникар",
 	"login": "Гьахьун",
-	"search": "Акун",
+	"search": "Жагъурун",
 	"dictionaries": "Гафалагар",
-	"explanatoryDictionary": "Толковый словар",
+  "dictionary": "Гафалаг",
+	"explanatoryDictionary": "Толковый гафалаг",
 	"wordOfTheDay": "И йикъан гаф",
 	"language": "ЧIал",
 	"dialect": "Нугъат",

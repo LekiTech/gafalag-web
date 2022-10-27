@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import images from '@/store/images';
 import '@/i18n';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from "react-helmet";
 
 import DictionaryAPI from '@/store/dictionary/dictionary.api';
 import { DictionaryActions } from '@/store/dictionary/dictionary.module';
@@ -91,10 +92,20 @@ function Search() {
       }
     }
   }, [dictionary])
-  
-
+  /* @ts-ignore */
+  const title = `${t('languages.' + fromLang)} - ${t('languages.' + toLang)} ${t('dictionary')} | перевод слова ${expression} | Gafalag`
+  const descriptionFromFound = resultDirectSearch.length > 0 
+    ? resultDirectSearch[0].definitions[0].text
+    : (resultFromDefinitions.length > 0 ? resultFromDefinitions[0].definitions[0].text : '');
+  const description = `Перевод слова ${expression}: ${descriptionFromFound.substring(0, 50).replaceAll(/\{\}\<\>/g, '')}...`;
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100vw', minHeight: '100vh'}}>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+      </Helmet>
       <div style={styles(isMobileDevice).searchContainer}>
         <div
           style={styles(isMobileDevice).logoContainer} 
