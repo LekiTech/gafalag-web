@@ -18,5 +18,9 @@
 		"lez": "Lezgi",
 		"tab": "Tabasaran",
 		"aze": "Azerbaijani"
-	}
+	},
+  "meta": {
+    "title": "Gafalag - convenient dictionary of languages of small nations | Lezgin dictionary | Tabasaran dictionary",
+    "description": "An open-source dictionary and translator for languages of small nations. At the moment there is support for Lezgin and Tabasaran languages.  You can find translations of Lezgin-Russian, Russian-Lezgin and Tabasaran-Russian dictionaries here. We also support search in translations what gives the possibility to search by Russian-Tabasaran dictionary type as well. Our dictionary, among other things, gives you the possibility of imprecise search which, if you enter several words, works as a translator or phrasebook finding all or some of the words you enter"
+  }
 }

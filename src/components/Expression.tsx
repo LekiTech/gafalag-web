@@ -5,7 +5,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import Dialog from '@mui/material/Dialog';
-import { DictionaryReduxState, ExpressionDto } from '@/store/dictionary/dictionary.type';
+import { Definition, DictionaryReduxState, ExpressionDto } from '@/store/dictionary/dictionary.type';
 import { DefinitionTextType, definitionToFormatJson } from '@/store/dictionary/utils';
 import { cyrb53Hash } from '@/utils';
 import { useTranslation } from 'react-i18next';
@@ -87,6 +87,14 @@ function Expression(props: {expression: ExpressionDto, highlightInDefinition?: s
   const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false);
 
   // const isMobileDevice = isMobile();
+  // Group definitions by `sourceId` for better representation
+  const result = expression.definitions.reduce((group, definition) => {
+    const { sourceId } = definition;
+    group[sourceId] = group[sourceId] ?? [];
+    group[sourceId].push(definition);
+    return group;
+  }, {} as Record<string, Definition[]>);
+  // console.log(result);
   return (
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', marginBottom: '20px', paddingBottom: '10px', borderBottom: '1px solid #DADCE0'}}>
       <Dialog fullWidth open={openFeedbackDialog} onClose={() => setOpenFeedbackDialog(!openFeedbackDialog)}>
@@ -136,19 +144,37 @@ function Expression(props: {expression: ExpressionDto, highlightInDefinition?: s
 				</div> */}
 				<div style={{marginLeft: '0px'}}>
 					{ expandDefinitions &&
-						expression.definitions.map(def => (
-							<div className="expression_info_block" key={cyrb53Hash(def.text)}>
-								{/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
-								<span className="definition">
-                  <FormattedDefinitionText definition={def.text} fromLang={dict.fromLang} toLang={dict.toLang} highlight={highlightInDefinition} />
-                </span>
-								{
-									dict.sources != undefined && dict.sources[def.sourceId] != undefined &&
-									<span className="info_row">{t('source')}: <span>{dict.sources[def.sourceId].name}</span></span>
+						// expression.definitions.map(def => (
+						// 	<div className="expression_info_block" key={cyrb53Hash(def.text)}>
+						// 		{/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
+						// 		<span className="definition">
+            //       <FormattedDefinitionText definition={def.text} fromLang={dict.fromLang} toLang={dict.toLang} highlight={highlightInDefinition} />
+            //     </span>
+						// 		{
+						// 			dict.sources != undefined && dict.sources[def.sourceId] != undefined &&
+						// 			<span className="info_row">{t('source')}: <span>{dict.sources[def.sourceId].name}</span></span>
 
-								}
-							</div>
-						))
+						// 		}
+						// 	</div>
+						// ))
+            Object.entries(result).map(([sourceId, definitions]) => (
+              <div className="expression_info_block" key={cyrb53Hash(sourceId)}>
+                {
+                  definitions.map(def => (
+                    <div className="expression_info_block" key={cyrb53Hash(def.text)}>
+                      {/* <span className="info_row">{t('language')}: <span>{getDynamicLanguageTranslation(t, def.languageId)}</span></span> */}
+                      <span className="definition">
+                        <FormattedDefinitionText definition={def.text} fromLang={dict.fromLang} toLang={dict.toLang} highlight={highlightInDefinition} />
+                      </span>
+                    </div>
+                  ))
+                }
+                {
+                  dict.sources != undefined && dict.sources[sourceId] != undefined &&
+                  <span className="info_row">{t('source')}: <span>{dict.sources[sourceId].name}</span></span>
+                }
+              </div>
+            ))
 					}
 				</div>
 			</div>

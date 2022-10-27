@@ -97,7 +97,7 @@ function Search() {
   const descriptionFromFound = resultDirectSearch.length > 0 
     ? resultDirectSearch[0].definitions[0].text
     : (resultFromDefinitions.length > 0 ? resultFromDefinitions[0].definitions[0].text : '');
-  const description = `Перевод слова ${expression}: ${descriptionFromFound.substring(0, 50).replaceAll(/\{\}\<\>/g, '')}...`;
+  const description = `Перевод слова ${expression}: ${descriptionFromFound.substring(0, 50).replaceAll(/\{|\}|\<|\>/g, '')}...`;
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100vw', minHeight: '100vh'}}>
       <Helmet>
