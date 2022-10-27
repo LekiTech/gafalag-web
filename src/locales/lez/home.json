@@ -1,5 +1,5 @@
 {
-	"sources": "Источникар",
+	"sources": "Чешмеяр",
 	"login": "Гьахьун",
 	"search": "Жагъурун",
 	"dictionaries": "Гафалагар",
@@ -8,10 +8,10 @@
 	"wordOfTheDay": "И йикъан гаф",
 	"language": "ЧIал",
 	"dialect": "Нугъат",
-	"source": "Источник",
+	"source": "Чешме",
   "foundInDefinitions": "Гаф гуьгъуьнал алай метлебра гьатнава",
   "noSuggestionsFound": "Теклифар жагъанач",
-  "enterSearchWord": "Жагъурзвай гаф кхьихь",
+  "enterSearchWord": "Жугъурзавай гаф кхьихь",
 	"languages": {
 		"eng": "Инглис",
 		"rus": "Урус",
